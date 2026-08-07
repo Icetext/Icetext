@@ -1,0 +1,51 @@
+name: Update GitHub Profile Stats SVGs
+
+'on':
+  schedule:
+    # Runs at 00:00 UTC every day
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'config.json'
+      - 'package*.json'
+      - '.github/workflows/update-stats.yml'
+
+jobs:
+  update-stats:
+    name: Generate & Commit SVG Stats
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Stats Generator
+        env:
+          GITHUB_TOKEN: ${{ secrets.METRICS_TOKEN || secrets.PAT_TOKEN }}
+        run: npm start
+
+      - name: Commit and Push Updated SVGs
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore: update GitHub profile stats SVGs [skip ci]'
+          file_pattern: 'github-stats.svg top-langs.svg streak.svg'
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+          commit_author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
