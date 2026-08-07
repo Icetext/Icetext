@@ -1,13 +1,7 @@
 import { getTheme } from './theme.js';
 
-/**
- * Escapes special XML characters in text strings.
- * @param {string} str Raw string
- * @returns {string} XML-safe string
- */
-function escapeXml(str) {
-  if (!str) return '';
-  return String(str)
+function escapeXml(value) {
+  return String(value ?? '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -15,156 +9,60 @@ function escapeXml(str) {
     .replace(/'/g, '&apos;');
 }
 
-/**
- * Formats numbers with commas (e.g. 1234 -> 1,234).
- * @param {number} num Number to format
- * @returns {string} Formatted number
- */
-function formatNumber(num) {
-  if (num === null || num === undefined || isNaN(num)) return '0';
-  return Number(num).toLocaleString('en-US');
+function formatNumber(value) {
+  return Number.isFinite(Number(value)) ? Number(value).toLocaleString('en-US') : '0';
 }
 
-/**
- * Renders SVG GitHub Streak Stats Card.
- * @param {object} data Object containing streakStats or directly streakStats
- * @param {string|object} [themeName='dark'] Theme key or custom palette
- * @param {object} [options] Custom rendering options
- * @returns {string} SVG string
- */
+function truncate(value, maxLength = 27) {
+  const text = String(value || '');
+  return text.length > maxLength ? `${text.slice(0, maxLength - 3)}...` : text;
+}
+
+/** Render the three-column contribution streak card from the reference design. */
 export function renderStreakCard(data = {}, themeName = 'dark', options = {}) {
   const theme = getTheme(themeName);
+  const stats = data.streakStats || data;
+  const width = options.streakWidth || 545;
+  const height = options.streakHeight || 215;
+  const borderRadius = options.borderRadius ?? 6;
+  const currentStreak = stats.currentStreak || 0;
+  const leftRange = truncate(stats.streakRange);
+  const currentRange = truncate(stats.currentStreakRange || (currentStreak > 0 ? 'Active' : 'No Active Streak'));
+  const longestRange = truncate(stats.longestStreakRange || stats.streakRange);
+  const firstDivider = width / 3;
+  const secondDivider = (width / 3) * 2;
+  const centers = [width / 6, width / 2, (width / 6) * 5];
 
-  let streakStats = {};
-  if (data.streakStats) {
-    streakStats = data.streakStats;
-  } else {
-    streakStats = data;
-  }
-
-  const title = options.title || 'GitHub Streak Stats';
-  const width = options.width || 495;
-  const height = options.height || 150;
-  const borderRadius = options.borderRadius ?? theme.borderRadius ?? 10;
-
-  const totalContributions = streakStats.totalContributions || 0;
-  const currentStreak = streakStats.currentStreak || 0;
-  const longestStreak = streakStats.longestStreak || 0;
-  const streakRange = streakStats.streakRange ? (streakStats.streakRange.length > 26 ? streakStats.streakRange.substring(0, 23) + '...' : streakStats.streakRange) : '';
-  const rawCurrentRange = streakStats.currentStreakRange || (currentStreak > 0 ? 'Active' : 'No Active Streak');
-  const currentStreakRange = rawCurrentRange.length > 26 ? rawCurrentRange.substring(0, 23) + '...' : rawCurrentRange;
-  const rawLongestRange = streakStats.longestStreakRange || streakRange;
-  const longestStreakRange = rawLongestRange.length > 26 ? rawLongestRange.substring(0, 23) + '...' : rawLongestRange;
-
-  // Flame SVG path
-  const flameIconPath = `M7.75 0C6.67 2.05 4.5 3.5 4.5 6a3.5 3.5 0 007 0c0-1.25-.5-2.25-1.5-3.25.1.75-.15 1.5-.75 2-.5.42-1.25.42-1.75-.15-.5-.57-.5-1.5-.5-2.6 0-.85.3-1.4.75-2z`;
-
-  return `<svg
-  width="${width}"
-  height="${height}"
-  viewBox="0 0 ${width} ${height}"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
-  role="img"
-  aria-label="${escapeXml(title)}"
->
+  return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="GitHub streak statistics">
   <style>
-    .stat-number {
-      font: 700 28px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-      fill: ${theme.title_color};
-      dominant-baseline: central;
-    }
-    .stat-label {
-      font: 600 13px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-      fill: ${theme.text_color};
-      dominant-baseline: central;
-    }
-    .stat-range {
-      font: 400 11px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-      fill: ${theme.icon_color};
-      opacity: 0.85;
-      dominant-baseline: central;
-    }
-    .fire-icon {
-      fill: ${theme.fire_color};
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: flamePulse 1.5s infinite ease-in-out alternate;
-    }
-    .divider {
-      stroke: ${theme.border_color};
-      stroke-width: 1;
-      stroke-opacity: 0.7;
-    }
-    .fade-in {
-      opacity: 0;
-      animation: fadeIn 0.6s ease-in-out forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes flamePulse {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.1); }
-    }
+    .number,.label,.range { font-family:'Segoe UI',Ubuntu,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif; text-anchor:middle; dominant-baseline:middle; }
+    .number { font-size:28px; font-weight:700; fill:${theme.text_color}; }
+    .label { font-size:14px; font-weight:400; fill:${theme.text_color}; }
+    .range { font-size:12px; font-weight:400; fill:${theme.text_color}; opacity:.9; }
+    .current-number { fill:${theme.icon_color}; }
+    .current-label { fill:${theme.icon_color}; font-weight:700; }
+    .column { opacity:0; animation:fadeIn .5s ease-out forwards; }
+    @keyframes fadeIn { to { opacity:1; } }
   </style>
-
-  <rect
-    x="0.5"
-    y="0.5"
-    rx="${borderRadius}"
-    width="${width - 1}"
-    height="${height - 1}"
-    fill="${theme.bg_color}"
-    stroke="${theme.border_color}"
-    stroke-opacity="1"
-  />
-
-  <!-- Divider Lines -->
-  <line class="divider" x1="165" y1="20" x2="165" y2="130" />
-  <line class="divider" x1="330" y1="20" x2="330" y2="130" />
-
-  <!-- Block 1: Total Contributions -->
-  <g class="fade-in" style="animation-delay: 150ms" transform="translate(82.5, 22)">
-    <!-- Calendar/Activity Icon -->
-    <svg x="-10" y="0" fill="${theme.icon_color}" height="20" width="20" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M4.75 0a.75.75 0 01.75.75V2h5V.75a.75.75 0 011.5 0V2h1.25A1.75 1.75 0 0115 3.75v10.5A1.75 1.75 0 0113.25 16H2.75A1.75 1.75 0 011 14.25V3.75A1.75 1.75 0 012.75 2H4V.75A.75.75 0 014.75 0zm0 3.5h8.5a.25.25 0 01.25.25V6H2.5V3.75a.25.25 0 01.25-.25h2zm-2.25 4v6.75c0 .138.112.25.25.25h10.5a.25.25 0 00.25-.25V7.5H2.5z"/>
-    </svg>
-    <text x="0" y="40" text-anchor="middle" class="stat-number" dominant-baseline="central">${formatNumber(totalContributions)}</text>
-    <text x="0" y="66" text-anchor="middle" class="stat-label" dominant-baseline="central">Total Contributions</text>
-    <text x="0" y="84" text-anchor="middle" class="stat-range" dominant-baseline="central">${escapeXml(streakRange)}</text>
+  <rect x=".75" y=".75" width="${width - 1.5}" height="${height - 1.5}" rx="${borderRadius}" fill="${theme.bg_color}" stroke="${theme.text_color}" stroke-width="1.5"/>
+  <line x1="${firstDivider}" y1="30" x2="${firstDivider}" y2="187" stroke="${theme.text_color}" stroke-width="1" opacity=".8"/>
+  <line x1="${secondDivider}" y1="30" x2="${secondDivider}" y2="187" stroke="${theme.text_color}" stroke-width="1" opacity=".8"/>
+  <g class="column" style="animation-delay:120ms">
+    <text x="${centers[0]}" y="78" class="number">${formatNumber(stats.totalContributions)}</text>
+    <text x="${centers[0]}" y="118" class="label">Total Contributions</text>
+    <text x="${centers[0]}" y="151" class="range">${escapeXml(leftRange)}</text>
   </g>
-
-  <!-- Block 2: Current Streak (Highlighted) -->
-  <g class="fade-in" style="animation-delay: 300ms" transform="translate(247.5, 60)">
-    <!-- Teal Circular Ring -->
-    <circle cx="0" cy="-20" r="32" fill="none" stroke="${theme.accent_color}" stroke-width="3" />
-    
-    <!-- Animated Flame Icon incorporated at the top -->
-    <g transform="translate(0, -52)">
-      <svg class="fire-icon" x="-10" y="0" height="20" width="20" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="${flameIconPath}"/>
-      </svg>
-    </g>
-    
-    <!-- Number inside the ring (Mauve/purple) -->
-    <text x="0" y="-20" text-anchor="middle" class="stat-number" fill="${theme.icon_color}" dominant-baseline="central">${formatNumber(currentStreak)}</text>
-    
-    <!-- Text below the ring (Mauve/purple, Bold) -->
-    <text x="0" y="32" text-anchor="middle" class="stat-label" fill="${theme.icon_color}" style="font-weight: 700;" dominant-baseline="central">Current Streak</text>
-    <text x="0" y="50" text-anchor="middle" class="stat-range" dominant-baseline="central">${escapeXml(currentStreakRange)}</text>
+  <g class="column" style="animation-delay:240ms">
+    <circle cx="${centers[1]}" cy="75" r="43" fill="none" stroke="${theme.accent_color}" stroke-width="5"/>
+    <path d="M ${centers[1]} 23 C ${centers[1] - 8} 32,${centers[1] - 10} 40,${centers[1]} 44 C ${centers[1] + 9} 40,${centers[1] + 8} 31,${centers[1] + 2} 26 C ${centers[1] + 3} 32,${centers[1] - 1} 35,${centers[1] - 3} 32 C ${centers[1] - 4} 29,${centers[1] - 2} 26,${centers[1]} 23 Z" fill="${theme.accent_color}" stroke="${theme.bg_color}" stroke-width="4"/>
+    <text x="${centers[1]}" y="76" class="number current-number">${formatNumber(currentStreak)}</text>
+    <text x="${centers[1]}" y="145" class="label current-label">Current Streak</text>
+    <text x="${centers[1]}" y="174" class="range">${escapeXml(currentRange)}</text>
   </g>
-
-  <!-- Block 3: Longest Streak -->
-  <g class="fade-in" style="animation-delay: 450ms" transform="translate(412.5, 22)">
-    <!-- Crown / Zap Icon -->
-    <svg x="-10" y="0" fill="${theme.icon_color}" height="20" width="20" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M8 1.5a.75.75 0 01.65.375l2.25 3.75a.75.75 0 01-.15.938l-2.25 2.25a.75.75 0 01-1 0L5.25 6.563a.75.75 0 01-.15-.938l2.25-3.75A.75.75 0 018 1.5zM2.5 13.5a.75.75 0 01.75-.75h9.5a.75.75 0 010 1.5h-9.5a.75.75 0 01-.75-.75z"/>
-    </svg>
-    <text x="0" y="40" text-anchor="middle" class="stat-number" dominant-baseline="central">${formatNumber(longestStreak)}</text>
-    <text x="0" y="66" text-anchor="middle" class="stat-label" dominant-baseline="central">Longest Streak</text>
-    <text x="0" y="84" text-anchor="middle" class="stat-range" dominant-baseline="central">${escapeXml(longestStreakRange || streakRange)}</text>
+  <g class="column" style="animation-delay:360ms">
+    <text x="${centers[2]}" y="78" class="number">${formatNumber(stats.longestStreak)}</text>
+    <text x="${centers[2]}" y="118" class="label">Longest Streak</text>
+    <text x="${centers[2]}" y="151" class="range">${escapeXml(longestRange)}</text>
   </g>
 </svg>`;
 }

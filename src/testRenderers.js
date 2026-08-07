@@ -267,7 +267,7 @@ const datasets = [
   },
 ];
 
-const themesToTest = ['dark', 'light', 'tokyonight', 'dracula', 'nord'];
+const themesToTest = ['dark', 'light', 'tokyonight', 'dracula', 'nord', 'catppuccin'];
 
 function runTests() {
   console.log('====================================================');

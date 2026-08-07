@@ -1,158 +1,30 @@
-<svg
-  width="495"
-  height="150"
-  viewBox="0 0 495 150"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
-  role="img"
-  aria-label="Most Used Languages"
->
+<svg width="330" height="180" viewBox="0 0 330 180" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Most Used Languages">
   <style>
-    .header {
-      font: 600 18px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-      fill: #94e2d5;
-      animation: fadeIn 0.8s ease-in-out forwards;
-      dominant-baseline: central;
-    }
-    .lang-name {
-      font: 600 13px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-      fill: #cdd6f4;
-      dominant-baseline: central;
-    }
-    .lang-percent {
-      font: 400 13px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-      fill: #cba6f7;
-      dominant-baseline: central;
-    }
-    .bar-segment {
-      opacity: 0;
-      animation: fadeIn 0.5s ease-in-out forwards;
-    }
-    .stagger {
-      opacity: 0;
-      animation: fadeIn 0.5s ease-in-out forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    .header,.language,.empty { font-family:'Segoe UI',Ubuntu,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif; dominant-baseline:middle; }
+    .header { font-size:18px; font-weight:600; fill:#94e2d5; }
+    .language { font-size:11px; font-weight:400; fill:#cdd6f4; }
+    .empty { font-size:12px; fill:#cdd6f4; text-anchor:middle; }
+    .fade { opacity:0; animation:fadeIn .45s ease-out forwards; }
+    @keyframes fadeIn { to { opacity:1; } }
   </style>
-
-  <rect
-    x="0.5"
-    y="0.5"
-    rx="10"
-    width="494"
-    height="149"
-    fill="#1e1e2e"
-    stroke="#313244"
-    stroke-opacity="1"
-  />
-
-  <g transform="translate(25, 25)">
-    <!-- Code Bracket Header Icon -->
-    <svg fill="#94e2d5" height="20" viewBox="0 0 16 16" version="1.1" width="20" aria-hidden="true">
-      <path fill-rule="evenodd" d="M4.72 3.22a.75.75 0 011.06 1.06L2.06 8l3.72 3.72a.75.75 0 11-1.06 1.06L.47 8.53a.75.75 0 010-1.06l4.25-4.25zm6.56 0a.75.75 0 10-1.06 1.06L13.94 8l-3.72 3.72a.75.75 0 101.06 1.06l4.25-4.25a.75.75 0 000-1.06l-4.25-4.25z"/>
-    </svg>
-    <text x="30" y="10" class="header" dominant-baseline="central">Most Used Languages</text>
-  </g>
-
-  
-  <!-- Segmented Progress Bar -->
-  <g>
-    <defs>
-      <clipPath id="bar-clip">
-        <rect x="25" y="52" width="445" height="8" rx="5" />
-      </clipPath>
-    </defs>
-    <!-- Background track -->
-    <rect x="25" y="52" width="445" height="8" rx="5" fill="#313244" opacity="0.4" />
-    <g clip-path="url(#bar-clip)">
-      <rect
-        class="bar-segment"
-        style="animation-delay: 200ms"
-        x="25.00"
-        y="52"
-        width="212.67"
-        height="8"
-        fill="#89b4fa"
-      /><rect
-        class="bar-segment"
-        style="animation-delay: 280ms"
-        x="237.67"
-        y="52"
-        width="155.17"
-        height="8"
-        fill="#f9e2af"
-      /><rect
-        class="bar-segment"
-        style="animation-delay: 360ms"
-        x="392.84"
-        y="52"
-        width="19.22"
-        height="8"
-        fill="#cba6f7"
-      /><rect
-        class="bar-segment"
-        style="animation-delay: 440ms"
-        x="412.06"
-        y="52"
-        width="19.05"
-        height="8"
-        fill="#fab387"
-      /><rect
-        class="bar-segment"
-        style="animation-delay: 520ms"
-        x="431.11"
-        y="52"
-        width="16.24"
-        height="8"
-        fill="#94e2d5"
-      /><rect
-        class="bar-segment"
-        style="animation-delay: 600ms"
-        x="447.35"
-        y="52"
-        width="8.72"
-        height="8"
-        fill="#a6e3a1"
-      />
+  <rect x=".75" y=".75" width="328.5" height="178.5" rx="6" fill="#1e1e2e" stroke="#cdd6f4" stroke-width="1.5"/>
+  <text x="27" y="34" class="header">Most Used Languages</text>
+  <defs><clipPath id="language-bar"><rect x="27" y="65" width="276" height="8" rx="4"/></clipPath></defs>
+  <rect x="27" y="65" width="276" height="8" rx="4" fill="#313244"/>
+  <g clip-path="url(#language-bar)"><rect class="fade" style="animation-delay:150ms" x="27.00" y="65" width="95.55" height="8" fill="#89b4fa"/><rect class="fade" style="animation-delay:210ms" x="122.55" y="65" width="89.18" height="8" fill="#f9e2af"/><rect class="fade" style="animation-delay:270ms" x="211.73" y="65" width="46.70" height="8" fill="#cba6f7"/><rect class="fade" style="animation-delay:330ms" x="258.43" y="65" width="31.85" height="8" fill="#fab387"/><rect class="fade" style="animation-delay:390ms" x="290.28" y="65" width="12.75" height="8" fill="#94e2d5"/></g><g class="fade" style="animation-delay:250ms">
+      <circle cx="32" cy="101" r="5" fill="#89b4fa"/>
+      <text x="43" y="101" class="language">TypeScript 34.62%</text>
+    </g><g class="fade" style="animation-delay:320ms">
+      <circle cx="176" cy="101" r="5" fill="#f9e2af"/>
+      <text x="187" y="101" class="language">JavaScript 32.31%</text>
+    </g><g class="fade" style="animation-delay:390ms">
+      <circle cx="32" cy="125" r="5" fill="#cba6f7"/>
+      <text x="43" y="125" class="language">Python 16.92%</text>
+    </g><g class="fade" style="animation-delay:460ms">
+      <circle cx="176" cy="125" r="5" fill="#fab387"/>
+      <text x="187" y="125" class="language">Rust 11.54%</text>
+    </g><g class="fade" style="animation-delay:530ms">
+      <circle cx="32" cy="149" r="5" fill="#94e2d5"/>
+      <text x="43" y="149" class="language">Go 4.62%</text>
     </g>
-  </g>
-
-  <!-- Language Grid -->
-  <g>
-    
-      <g class="stagger" style="animation-delay: 300ms" transform="translate(25, 78)">
-        <circle cx="6" cy="6" r="4" fill="#89b4fa" />
-        <text x="18" y="6" class="lang-name" dominant-baseline="central">TypeScript</text>
-        <text x="195" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">47.8%</text>
-      </g>
-      <g class="stagger" style="animation-delay: 400ms" transform="translate(255, 78)">
-        <circle cx="6" cy="6" r="4" fill="#f9e2af" />
-        <text x="18" y="6" class="lang-name" dominant-baseline="central">JavaScript</text>
-        <text x="195" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">34.9%</text>
-      </g>
-      <g class="stagger" style="animation-delay: 500ms" transform="translate(25, 100)">
-        <circle cx="6" cy="6" r="4" fill="#cba6f7" />
-        <text x="18" y="6" class="lang-name" dominant-baseline="central">C#</text>
-        <text x="195" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">4.3%</text>
-      </g>
-      <g class="stagger" style="animation-delay: 600ms" transform="translate(255, 100)">
-        <circle cx="6" cy="6" r="4" fill="#fab387" />
-        <text x="18" y="6" class="lang-name" dominant-baseline="central">SCSS</text>
-        <text x="195" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">4.3%</text>
-      </g>
-      <g class="stagger" style="animation-delay: 700ms" transform="translate(25, 122)">
-        <circle cx="6" cy="6" r="4" fill="#94e2d5" />
-        <text x="18" y="6" class="lang-name" dominant-baseline="central">Less</text>
-        <text x="195" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">3.6%</text>
-      </g>
-      <g class="stagger" style="animation-delay: 800ms" transform="translate(255, 122)">
-        <circle cx="6" cy="6" r="4" fill="#a6e3a1" />
-        <text x="18" y="6" class="lang-name" dominant-baseline="central">Python</text>
-        <text x="195" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">2.0%</text>
-      </g>
-  </g>
-  
 </svg>

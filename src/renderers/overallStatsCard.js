@@ -1,13 +1,7 @@
 import { getTheme } from './theme.js';
 
-/**
- * Escapes special XML characters in text strings.
- * @param {string} str Raw string
- * @returns {string} XML-safe string
- */
-function escapeXml(str) {
-  if (!str) return '';
-  return String(str)
+function escapeXml(value) {
+  return String(value ?? '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -15,271 +9,70 @@ function escapeXml(str) {
     .replace(/'/g, '&apos;');
 }
 
-/**
- * Formats numbers with commas (e.g. 1234 -> 1,234).
- * @param {number} num Number to format
- * @returns {string} Formatted number
- */
-function formatNumber(num) {
-  if (num === null || num === undefined || isNaN(num)) return '0';
-  return Number(num).toLocaleString('en-US');
+function formatNumber(value) {
+  return Number.isFinite(Number(value)) ? Number(value).toLocaleString('en-US') : '0';
 }
 
-/**
- * Calculates rank grade and percentile based on user performance metrics.
- * @param {object} stats Performance metrics
- * @returns {object} { rank, score, percentile }
- */
 export function calculateRank(stats = {}) {
-  const totalCommits = stats.totalCommits || 0;
-  const totalPRs = stats.totalPRs || 0;
-  const totalIssues = stats.totalIssues || 0;
-  const totalStars = stats.totalStars || 0;
-  const totalReviews = stats.totalReviews || 0;
-  const contributedTo = stats.contributedTo || 0;
-
-  const COMMITS_WEIGHT = 1;
-  const PRS_WEIGHT = 2;
-  const ISSUES_WEIGHT = 1;
-  const STARS_WEIGHT = 4;
-  const REVIEWS_WEIGHT = 2;
-  const CONTRIBUTED_WEIGHT = 3;
-
   const score =
-    totalCommits * COMMITS_WEIGHT +
-    totalPRs * PRS_WEIGHT +
-    totalIssues * ISSUES_WEIGHT +
-    totalStars * STARS_WEIGHT +
-    totalReviews * REVIEWS_WEIGHT +
-    contributedTo * CONTRIBUTED_WEIGHT;
+    (stats.totalCommits || 0) +
+    (stats.totalPRs || 0) * 2 +
+    (stats.totalIssues || 0) +
+    (stats.totalStars || 0) * 4 +
+    (stats.totalReviews || 0) * 2 +
+    (stats.contributedTo || 0) * 3;
 
-  let rank = 'C';
-  let percentile = 25;
-
-  if (score >= 2500) {
-    rank = 'S+';
-    percentile = 98;
-  } else if (score >= 1500) {
-    rank = 'S';
-    percentile = 90;
-  } else if (score >= 800) {
-    rank = 'A+';
-    percentile = 80;
-  } else if (score >= 400) {
-    rank = 'A';
-    percentile = 65;
-  } else if (score >= 200) {
-    rank = 'B+';
-    percentile = 50;
-  } else if (score >= 100) {
-    rank = 'B';
-    percentile = 35;
-  } else {
-    rank = 'C';
-    percentile = 20;
-  }
-
-  return { rank, score, percentile };
+  if (score >= 2500) return { rank: 'S+', score, percentile: 98 };
+  if (score >= 1500) return { rank: 'S', score, percentile: 90 };
+  if (score >= 800) return { rank: 'A+', score, percentile: 80 };
+  if (score >= 400) return { rank: 'A', score, percentile: 65 };
+  if (score >= 200) return { rank: 'B+', score, percentile: 50 };
+  if (score >= 100) return { rank: 'B', score, percentile: 35 };
+  return { rank: 'C', score, percentile: 20 };
 }
 
-/**
- * Renders SVG GitHub Overall Stats Card.
- * @param {object} data Raw data containing overallStats and user info, or directly overallStats
- * @param {string|object} [themeName='dark'] Theme key or custom palette
- * @param {object} [options] Custom rendering options
- * @returns {string} SVG string
- */
+/** Render the profile overview card shown at the top of the README stats block. */
 export function renderOverallStatsCard(data = {}, themeName = 'dark', options = {}) {
   const theme = getTheme(themeName);
-
-  // Extract stats and username flexibly
-  let stats = {};
-  let username = options.username || 'User';
-
-  if (data.overallStats) {
-    stats = data.overallStats;
-    username = options.username || data.user?.name || data.user?.login || 'User';
-  } else {
-    stats = data;
-  }
-
-  const { rank, percentile } = calculateRank(stats);
-
-  // Helper to truncate long titles to prevent overlap with rank ring
+  const stats = data.overallStats || data;
+  const username = options.username || data.user?.name || data.user?.login || 'User';
   const rawTitle = options.title || `${username}'s GitHub Stats`;
-  const title = rawTitle.length > 28 ? rawTitle.substring(0, 25) + '...' : rawTitle;
-  const width = options.width || 495;
-  const height = options.height || 175;
-  const borderRadius = options.borderRadius ?? theme.borderRadius ?? 10;
+  const title = rawTitle.length > 34 ? `${rawTitle.slice(0, 31)}...` : rawTitle;
+  const width = options.overallWidth || options.width || 495;
+  const height = options.overallHeight || 215;
+  const borderRadius = options.borderRadius ?? 6;
+  const { rank } = calculateRank(stats);
 
-  // Metric items configuration
-  const items = [
-    {
-      id: 'stars',
-      label: 'Total Stars:',
-      value: formatNumber(stats.totalStars),
-      icon: `<path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/>`,
-    },
-    {
-      id: 'commits',
-      label: 'Total Commits:',
-      value: formatNumber(stats.totalCommits),
-      icon: `<path fill-rule="evenodd" d="M10.5 7.75a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm1.43 0a3.993 3.993 0 01-2.68 3.782v3.718a.75.75 0 01-1.5 0v-3.718A3.993 3.993 0 015.07 7.75H1.75a.75.75 0 010-1.5h3.32a3.993 3.993 0 012.68-3.782V.75a.75.75 0 011.5 0v1.718a3.993 3.993 0 012.68 3.782h3.32a.75.75 0 010 1.5h-3.32z"/>`,
-    },
-    {
-      id: 'prs',
-      label: 'Total PRs:',
-      value: formatNumber(stats.totalPRs),
-      icon: `<path fill-rule="evenodd" d="M7.177 3.073L9.573.677A.25.25 0 0110 .854v4.792a.25.25 0 01-.427.177L7.177 3.427a.25.25 0 010-.354zM3.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 011.5 3.25zM11 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 018.75 3.25zM3.75 12a.75.75 0 100 1.5.75.75 0 000-1.5zm7.5 0a.75.75 0 100 1.5.75.75 0 000-1.5z"/>`,
-    },
-    {
-      id: 'issues',
-      label: 'Total Issues:',
-      value: formatNumber(stats.totalIssues),
-      icon: `<path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm9 3a1 1 0 11-2 0 1 1 0 012 0zm-.25-6.25a.75.75 0 00-1.5 0v3.5a.75.75 0 001.5 0v-3.5z"/>`,
-    },
-    {
-      id: 'contrib',
-      label: 'Contributed to:',
-      value: formatNumber(stats.contributedTo),
-      icon: `<path fill-rule="evenodd" d="M2 2.5A1.5 1.5 0 013.5 1h9A1.5 1.5 0 0114 2.5v11a1.5 1.5 0 01-1.5 1.5h-9A1.5 1.5 0 012 13.5v-11zM3.5 2a.5.5 0 00-.5.5v11a.5.5 0 00.5.5h9a.5.5 0 00.5-.5v-11a.5.5 0 00-.5-.5h-9zM5 4.75A.75.75 0 015.75 4h4.5a.75.75 0 010 1.5h-4.5A.75.75 0 015 4.75zm0 3A.75.75 0 015.75 7h4.5a.75.75 0 010 1.5h-4.5A.75.75 0 015 7.75zm0 3a.75.75 0 01.75-.75h2.5a.75.75 0 010 1.5h-2.5a.75.75 0 01-.75-.75z"/>`,
-    },
-  ];
-
-  // Circle geometry for Rank Ring
-  const radius = 40;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (circumference * percentile) / 100;
-
-  // Generate metric SVG rows (5 rows centered vertically)
-  const itemRows = items
-    .map((item, index) => {
-      const y = 44 + index * 22;
-      const animDelay = 150 + index * 100;
-
-      return `
-      <g class="stagger" style="animation-delay: ${animDelay}ms" transform="translate(25, ${y})">
-        <svg class="icon" viewBox="0 0 16 16" version="1.1" width="16" height="16" fill="${theme.icon_color}">
-          ${item.icon}
-        </svg>
-        <text class="stat-label" x="25" y="8" dominant-baseline="central">${escapeXml(item.item_label || item.label)}</text>
-        <text class="stat-value" x="220" y="8" text-anchor="end" dominant-baseline="central">${escapeXml(item.value)}</text>
-        ${
-          item.note
-            ? `<text class="stat-note" x="230" y="8" dominant-baseline="central">${escapeXml(item.note)}</text>`
-            : ''
-        }
-      </g>`;
-    })
+  const rows = [
+    ['Total Stars Earned:', stats.totalStars],
+    ['Total Commits:', stats.totalCommits],
+    ['Total PRs:', stats.totalPRs],
+    ['Total Issues:', stats.totalIssues],
+    ['Contributed to (last year):', stats.contributedTo],
+  ]
+    .map(([label, value], index) => `
+    <g class="row" style="animation-delay:${150 + index * 80}ms">
+      <text x="27" y="${70 + index * 27}" class="stat-label">${escapeXml(label)}</text>
+      <text x="247" y="${70 + index * 27}" class="stat-value">${formatNumber(value)}</text>
+    </g>`)
     .join('');
 
-  return `<svg
-  width="${width}"
-  height="${height}"
-  viewBox="0 0 ${width} ${height}"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
-  role="img"
-  aria-label="${escapeXml(title)}"
->
+  return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}">
   <style>
-    .header {
-      font: 600 18px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-      fill: ${theme.title_color};
-      animation: fadeIn 0.8s ease-in-out forwards;
-      dominant-baseline: central;
-    }
-    .stat-label {
-      font: 400 14px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-      fill: ${theme.text_color};
-      dominant-baseline: central;
-    }
-    .stat-value {
-      font: 600 14px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-      fill: ${theme.text_color};
-      dominant-baseline: central;
-    }
-    .stat-note {
-      font: 400 11px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-      fill: ${theme.icon_color};
-      opacity: 0.8;
-      dominant-baseline: central;
-    }
-    .rank-text {
-      font: 700 24px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-      fill: ${theme.title_color};
-      dominant-baseline: central;
-    }
-    .rank-label {
-      font: 500 11px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-      fill: ${theme.text_color};
-      opacity: 0.75;
-      dominant-baseline: central;
-    }
-    .stagger {
-      opacity: 0;
-      animation: fadeIn 0.5s ease-in-out forwards;
-    }
-    .rank-ring {
-      stroke-dasharray: ${circumference.toFixed(2)};
-      stroke-dashoffset: ${circumference.toFixed(2)};
-      animation: rankRingAnim 1.2s ease-in-out forwards 0.3s;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes rankRingAnim {
-      to { stroke-dashoffset: ${strokeDashoffset.toFixed(2)}; }
-    }
+    .header,.stat-label,.stat-value,.rank { font-family:'Segoe UI',Ubuntu,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif; dominant-baseline:middle; }
+    .header { font-size:18px; font-weight:600; fill:${theme.title_color}; }
+    .stat-label,.stat-value { font-size:14px; font-weight:600; fill:${theme.text_color}; }
+    .rank { font-size:26px; font-weight:700; fill:${theme.text_color}; text-anchor:middle; }
+    .row { opacity:0; animation:fadeIn .45s ease-out forwards; }
+    @keyframes fadeIn { to { opacity:1; } }
   </style>
-
-  <rect
-    x="0.5"
-    y="0.5"
-    rx="${borderRadius}"
-    width="${width - 1}"
-    height="${height - 1}"
-    fill="${theme.bg_color}"
-    stroke="${theme.border_color}"
-    stroke-opacity="1"
-  />
-
-  <g transform="translate(25, 25)">
-    <!-- Octicon GitHub Header Icon -->
-    <svg fill="${theme.title_color}" height="20" viewBox="0 0 16 16" version="1.1" width="20" aria-hidden="true">
-      <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-    </svg>
-    <text x="30" y="10" class="header" dominant-baseline="central">${escapeXml(title)}</text>
-  </g>
-
-  <!-- Left Column: Metrics -->
-  <g>
-    ${itemRows}
-  </g>
-
-  <!-- Right Column: Rank Badge -->
-  <g transform="translate(${width - 120}, 95)">
-    <!-- Rank Outer Circular Ring Background (Thick dark ring) -->
-    <circle
-      cx="0"
-      cy="0"
-      r="${radius}"
-      fill="none"
-      stroke="${theme.border_color}"
-      stroke-width="12"
-    />
-    <!-- Teal Accent Dot on Top -->
-    <circle
-      cx="0"
-      cy="-${radius}"
-      r="4"
-      fill="${theme.accent_color}"
-    />
-    <!-- Rank Text Inside Ring -->
-    <text x="0" y="0" text-anchor="middle" class="rank-text" dominant-baseline="central">${escapeXml(rank)}</text>
-    <!-- Rank Label Below Ring -->
-    <text x="0" y="65" text-anchor="middle" class="rank-label" dominant-baseline="central">Rank Grade</text>
+  <rect x=".75" y=".75" width="${width - 1.5}" height="${height - 1.5}" rx="${borderRadius}" fill="${theme.bg_color}" stroke="${theme.text_color}" stroke-width="1.5"/>
+  <text x="27" y="34" class="header">${escapeXml(title)}</text>
+  ${rows.trimStart()}
+  <g transform="translate(${width - 104},121)">
+    <circle r="44" fill="none" stroke="${theme.border_color}" stroke-width="7"/>
+    <circle cy="-44" r="4" fill="${theme.accent_color}"/>
+    <text y="1" class="rank">${escapeXml(rank)}</text>
   </g>
 </svg>`;
 }

@@ -20,7 +20,9 @@
 
 # 📊 GitHub Statistics:
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Icetext/Icetext/main/github-stats.svg?token=cachebust1" alt="Icetext's GitHub Stats" width="495" />
-  <img src="https://raw.githubusercontent.com/Icetext/Icetext/main/streak.svg?token=cachebust1" alt="Icetext's Streak Stats" width="495" />
-  <img src="https://raw.githubusercontent.com/Icetext/Icetext/main/top-langs.svg?token=cachebust1" alt="Top Languages" width="495" />
+  <img src="https://raw.githubusercontent.com/Icetext/Icetext/main/github-stats.svg?token=cachebust2" alt="Icetext's GitHub Stats" width="495" />
+  <br /><br />
+  <img src="https://raw.githubusercontent.com/Icetext/Icetext/main/streak.svg?token=cachebust2" alt="Icetext's Streak Stats" width="545" />
+  <br /><br />
+  <img src="https://raw.githubusercontent.com/Icetext/Icetext/main/top-langs.svg?token=cachebust2" alt="Top Languages" width="330" />
 </p>
