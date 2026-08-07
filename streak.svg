@@ -76,16 +76,23 @@
   </g>
 
   <!-- Block 2: Current Streak (Highlighted) -->
-  <g class="fade-in" style="animation-delay: 300ms" transform="translate(247.5, 20)">
-    <!-- Animated Flame Icon -->
-    <g transform="translate(0, 0)">
-      <svg class="fire-icon" x="-12" y="0" height="24" width="24" viewBox="0 0 16 16">
+  <g class="fade-in" style="animation-delay: 300ms" transform="translate(247.5, 60)">
+    <!-- Teal Circular Ring -->
+    <circle cx="0" cy="-20" r="32" fill="none" stroke="#1f6feb" stroke-width="3" />
+    
+    <!-- Animated Flame Icon incorporated at the top -->
+    <g transform="translate(0, -52)">
+      <svg class="fire-icon" x="-10" y="0" height="20" width="20" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M7.75 0C6.67 2.05 4.5 3.5 4.5 6a3.5 3.5 0 007 0c0-1.25-.5-2.25-1.5-3.25.1.75-.15 1.5-.75 2-.5.42-1.25.42-1.75-.15-.5-.57-.5-1.5-.5-2.6 0-.85.3-1.4.75-2z"/>
       </svg>
     </g>
-    <text x="0" y="42" text-anchor="middle" class="stat-number" dominant-baseline="central">0</text>
-    <text x="0" y="68" text-anchor="middle" class="stat-label" dominant-baseline="central">Current Streak</text>
-    <text x="0" y="86" text-anchor="middle" class="stat-range" dominant-baseline="central">No Active Streak</text>
+    
+    <!-- Number inside the ring (Mauve/purple) -->
+    <text x="0" y="-20" text-anchor="middle" class="stat-number" fill="#58a6ff" dominant-baseline="central">0</text>
+    
+    <!-- Text below the ring (Mauve/purple, Bold) -->
+    <text x="0" y="32" text-anchor="middle" class="stat-label" fill="#58a6ff" style="font-weight: 700;" dominant-baseline="central">Current Streak</text>
+    <text x="0" y="50" text-anchor="middle" class="stat-range" dominant-baseline="central">Aug 7, 2026</text>
   </g>
 
   <!-- Block 3: Longest Streak -->
@@ -96,6 +103,6 @@
     </svg>
     <text x="0" y="40" text-anchor="middle" class="stat-number" dominant-baseline="central">3</text>
     <text x="0" y="66" text-anchor="middle" class="stat-label" dominant-baseline="central">Longest Streak</text>
-    <text x="0" y="84" text-anchor="middle" class="stat-range" dominant-baseline="central">Aug 3, 2025 – Aug 7, 2026</text>
+    <text x="0" y="84" text-anchor="middle" class="stat-range" dominant-baseline="central">Jun 30, 2026 – Jul 2, 2026</text>
   </g>
 </svg>
