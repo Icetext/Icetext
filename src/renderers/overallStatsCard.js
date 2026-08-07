@@ -163,7 +163,7 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
           ${item.icon}
         </svg>
         <text class="stat-label" x="25" y="8" dominant-baseline="central">${escapeXml(item.item_label || item.label)}</text>
-        <text class="stat-value" x="140" y="8" dominant-baseline="central">${escapeXml(item.value)}</text>
+        <text class="stat-value" x="150" y="8" dominant-baseline="central">${escapeXml(item.value)}</text>
         ${
           item.note
             ? `<text class="stat-note" x="220" y="8" dominant-baseline="central">${escapeXml(item.note)}</text>`

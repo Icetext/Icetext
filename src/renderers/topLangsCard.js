@@ -79,7 +79,7 @@ export function renderTopLangsCard(data = [], themeName = 'dark', options = {}) 
       const col = index % 2;
       const row = Math.floor(index / 2);
 
-      const itemX = col === 0 ? barX : 235;
+      const itemX = col === 0 ? 25 : 255;
       const itemY = 78 + row * 22;
       const animDelay = 300 + index * 100;
 
@@ -89,9 +89,9 @@ export function renderTopLangsCard(data = [], themeName = 'dark', options = {}) 
 
       return `
       <g class="stagger" style="animation-delay: ${animDelay}ms" transform="translate(${itemX}, ${itemY})">
-        <circle cx="6" cy="6" r="5" fill="${langColor}" />
+        <circle cx="6" cy="6" r="4" fill="${langColor}" />
         <text x="18" y="6" class="lang-name" dominant-baseline="central">${escapeXml(displayName)}</text>
-        <text x="175" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">${pctStr}</text>
+        <text x="195" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">${pctStr}</text>
       </g>`;
     })
     .join('');

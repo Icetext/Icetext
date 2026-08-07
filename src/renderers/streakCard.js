@@ -122,42 +122,42 @@ export function renderStreakCard(data = {}, themeName = 'dark', options = {}) {
   />
 
   <!-- Divider Lines -->
-  <line class="divider" x1="165" y1="25" x2="165" y2="125" />
-  <line class="divider" x1="330" y1="25" x2="330" y2="125" />
+  <line class="divider" x1="165" y1="20" x2="165" y2="130" />
+  <line class="divider" x1="330" y1="20" x2="330" y2="130" />
 
   <!-- Block 1: Total Contributions -->
-  <g class="fade-in" style="animation-delay: 150ms" transform="translate(82.5, 32)">
+  <g class="fade-in" style="animation-delay: 150ms" transform="translate(82.5, 22)">
     <!-- Calendar/Activity Icon -->
     <svg x="-10" y="0" fill="${theme.icon_color}" height="20" width="20" viewBox="0 0 16 16">
       <path fill-rule="evenodd" d="M4.75 0a.75.75 0 01.75.75V2h5V.75a.75.75 0 011.5 0V2h1.25A1.75 1.75 0 0115 3.75v10.5A1.75 1.75 0 0113.25 16H2.75A1.75 1.75 0 011 14.25V3.75A1.75 1.75 0 012.75 2H4V.75A.75.75 0 014.75 0zm0 3.5h8.5a.25.25 0 01.25.25V6H2.5V3.75a.25.25 0 01.25-.25h2zm-2.25 4v6.75c0 .138.112.25.25.25h10.5a.25.25 0 00.25-.25V7.5H2.5z"/>
     </svg>
-    <text x="0" y="30" text-anchor="middle" class="stat-number" dominant-baseline="central">${formatNumber(totalContributions)}</text>
-    <text x="0" y="54" text-anchor="middle" class="stat-label" dominant-baseline="central">Total Contributions</text>
-    <text x="0" y="72" text-anchor="middle" class="stat-range" dominant-baseline="central">${escapeXml(streakRange)}</text>
+    <text x="0" y="40" text-anchor="middle" class="stat-number" dominant-baseline="central">${formatNumber(totalContributions)}</text>
+    <text x="0" y="66" text-anchor="middle" class="stat-label" dominant-baseline="central">Total Contributions</text>
+    <text x="0" y="84" text-anchor="middle" class="stat-range" dominant-baseline="central">${escapeXml(streakRange)}</text>
   </g>
 
   <!-- Block 2: Current Streak (Highlighted) -->
-  <g class="fade-in" style="animation-delay: 300ms" transform="translate(247.5, 30)">
+  <g class="fade-in" style="animation-delay: 300ms" transform="translate(247.5, 20)">
     <!-- Animated Flame Icon -->
     <g transform="translate(0, 0)">
-      <svg class="fire-icon" x="-12" y="-2" height="24" width="24" viewBox="0 0 16 16">
+      <svg class="fire-icon" x="-12" y="0" height="24" width="24" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="${flameIconPath}"/>
       </svg>
     </g>
-    <text x="0" y="30" text-anchor="middle" class="stat-number" dominant-baseline="central">${formatNumber(currentStreak)}</text>
-    <text x="0" y="54" text-anchor="middle" class="stat-label" dominant-baseline="central">Current Streak</text>
-    <text x="0" y="72" text-anchor="middle" class="stat-range" dominant-baseline="central">${escapeXml(currentStreakRange)}</text>
+    <text x="0" y="42" text-anchor="middle" class="stat-number" dominant-baseline="central">${formatNumber(currentStreak)}</text>
+    <text x="0" y="68" text-anchor="middle" class="stat-label" dominant-baseline="central">Current Streak</text>
+    <text x="0" y="86" text-anchor="middle" class="stat-range" dominant-baseline="central">${escapeXml(currentStreakRange)}</text>
   </g>
 
   <!-- Block 3: Longest Streak -->
-  <g class="fade-in" style="animation-delay: 450ms" transform="translate(412.5, 32)">
+  <g class="fade-in" style="animation-delay: 450ms" transform="translate(412.5, 22)">
     <!-- Crown / Zap Icon -->
     <svg x="-10" y="0" fill="${theme.icon_color}" height="20" width="20" viewBox="0 0 16 16">
       <path fill-rule="evenodd" d="M8 1.5a.75.75 0 01.65.375l2.25 3.75a.75.75 0 01-.15.938l-2.25 2.25a.75.75 0 01-1 0L5.25 6.563a.75.75 0 01-.15-.938l2.25-3.75A.75.75 0 018 1.5zM2.5 13.5a.75.75 0 01.75-.75h9.5a.75.75 0 010 1.5h-9.5a.75.75 0 01-.75-.75z"/>
     </svg>
-    <text x="0" y="30" text-anchor="middle" class="stat-number" dominant-baseline="central">${formatNumber(longestStreak)}</text>
-    <text x="0" y="54" text-anchor="middle" class="stat-label" dominant-baseline="central">Longest Streak</text>
-    <text x="0" y="72" text-anchor="middle" class="stat-range" dominant-baseline="central">${escapeXml(longestStreakRange || streakRange)}</text>
+    <text x="0" y="40" text-anchor="middle" class="stat-number" dominant-baseline="central">${formatNumber(longestStreak)}</text>
+    <text x="0" y="66" text-anchor="middle" class="stat-label" dominant-baseline="central">Longest Streak</text>
+    <text x="0" y="84" text-anchor="middle" class="stat-range" dominant-baseline="central">${escapeXml(longestStreakRange || streakRange)}</text>
   </g>
 </svg>`;
 }
