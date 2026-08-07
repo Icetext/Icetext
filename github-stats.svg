@@ -89,7 +89,7 @@
         </svg>
         <text class="stat-label" x="25" y="12.5">Total Commits:</text>
         <text class="stat-value" x="170" y="12.5">1,027</text>
-        <text class="stat-note" x="220" y="12.5">(incl. private &amp; public)</text>
+        
       </g>
       <g class="stagger" style="animation-delay: 350ms" transform="translate(25, 112)">
         <svg class="icon" viewBox="0 0 16 16" version="1.1" width="16" height="16" fill="#58a6ff">

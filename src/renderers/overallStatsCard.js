@@ -122,7 +122,6 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
       id: 'commits',
       label: 'Total Commits:',
       value: formatNumber(stats.totalCommits),
-      note: '(incl. private & public)',
       icon: `<path fill-rule="evenodd" d="M10.5 7.75a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm1.43 0a3.993 3.993 0 01-2.68 3.782v3.718a.75.75 0 01-1.5 0v-3.718A3.993 3.993 0 015.07 7.75H1.75a.75.75 0 010-1.5h3.32a3.993 3.993 0 012.68-3.782V.75a.75.75 0 011.5 0v1.718a3.993 3.993 0 012.68 3.782h3.32a.75.75 0 010 1.5h-3.32z"/>`,
     },
     {
