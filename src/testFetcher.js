@@ -4,6 +4,7 @@ import {
   calculateOverallStats,
   fetchAllRepositories,
   fetchLifetimeContributions,
+  fetchOwnedRepositoryCommitStats,
   fetchUserData,
   getContributionYearRange,
   validateTokenAccess,
@@ -72,6 +73,15 @@ await test('does not misclassify restricted activity as commits', () => {
   assert.equal(stats.contributedTo, 4);
 });
 
+await test('combines personal-project history with non-owned contributions without double counting', () => {
+  const stats = calculateOverallStats(
+    { contributionsCollection: {}, repositories: { nodes: [] } },
+    { totalCommitContributions: 67 },
+    { ownedLinkedCommits: 59, ownedAuthoredCommits: 200 }
+  );
+  assert.equal(stats.totalCommits, 208);
+});
+
 await test('paginates through every repository page', async () => {
   const cursors = [];
   const client = async (_query, variables) => {
@@ -120,6 +130,37 @@ await test('fetches and sums each lifetime contribution year', async () => {
   );
   assert.deepEqual(years, [2023, 2024, 2026]);
   assert.equal(totals.totalCommitContributions, 60);
+});
+
+await test('detects linked and historical-alias commits in owned repositories', async () => {
+  const pages = [
+    {
+      nodes: [
+        { oid: '1', author: { name: 'Icetext', email: 'old@example.test', user: null } },
+        { oid: '2', author: { name: 'Someone Else', user: { login: 'Icetext' } } },
+        { oid: '3', author: { name: 'Someone Else', user: null } },
+      ],
+      pageInfo: { hasNextPage: true, endCursor: 'next' },
+    },
+    {
+      nodes: [
+        { oid: '4', author: { name: 'ICEtext', user: null } },
+        { oid: '4', author: { name: 'ICEtext', user: null } },
+      ],
+      pageInfo: { hasNextPage: false, endCursor: null },
+    },
+  ];
+  let call = 0;
+  const client = async () => ({
+    node: { defaultBranchRef: { target: { history: pages[call++] } } },
+  });
+  const stats = await fetchOwnedRepositoryCommitStats(
+    client,
+    [{ id: 'repo-1', defaultBranchRef: { target: { history: { totalCount: 2 } } } }],
+    'Icetext',
+    ['Icetext']
+  );
+  assert.deepEqual(stats, { ownedLinkedCommits: 2, ownedAuthoredCommits: 3 });
 });
 
 await test('accepts a matching classic PAT with private scopes', async () => {

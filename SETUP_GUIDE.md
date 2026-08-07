@@ -47,3 +47,7 @@ npm start
 The generator intentionally exits with an error when the token is missing, belongs to a different user,
 lacks the required classic PAT scopes, or leaves restricted contributions inaccessible. Mock data can only
 be enabled explicitly from code for development and tests.
+
+`commitAuthorAliases` in `config.json` lists historical Git author names or email addresses that belong to
+you. The generator scans every owned public and private repository's default branch and uses these aliases
+to include personal-project commits that GitHub cannot link to your account because of an old/unverified email.

@@ -21,5 +21,8 @@
   "languageExclusions": [
     "HTML",
     "CSS"
+  ],
+  "commitAuthorAliases": [
+    "Icetext"
   ]
 }

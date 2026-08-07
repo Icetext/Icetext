@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { config } from './config.js';
 import {
   GET_CONTRIBUTIONS_QUERY,
+  GET_REPOSITORY_COMMITS_QUERY,
   GET_REPOSITORIES_QUERY,
   GET_USER_PROFILE_QUERY,
 } from './queries.js';
@@ -89,12 +90,12 @@ export function aggregateLifetimeContributions(collections = []) {
 }
 
 /** Fetches every owned, non-fork repository page visible to the token. */
-export async function fetchAllRepositories(graphqlClient, login) {
+export async function fetchAllRepositories(graphqlClient, login, authorId) {
   const repositories = [];
   let after = null;
 
   do {
-    const response = await graphqlClient(GET_REPOSITORIES_QUERY, { login, after });
+    const response = await graphqlClient(GET_REPOSITORIES_QUERY, { login, authorId, after });
     const connection = response?.user?.repositories;
     if (!connection) throw new Error(`GitHub did not return repositories for '${login}'.`);
     repositories.push(...(connection.nodes || []));
@@ -102,6 +103,57 @@ export async function fetchAllRepositories(graphqlClient, login) {
   } while (after);
 
   return repositories;
+}
+
+function commitMatchesIdentity(author, login, aliases) {
+  const candidates = [author?.user?.login, author?.name, author?.email]
+    .filter(Boolean)
+    .map((value) => value.toLowerCase());
+  const identities = new Set([login, ...(aliases || [])].filter(Boolean).map((value) => value.toLowerCase()));
+  return candidates.some((candidate) => identities.has(candidate));
+}
+
+/**
+ * Counts commits across every owned repository's default branch. Matching both
+ * GitHub login and configured author aliases recovers older commits whose email
+ * was never linked to the account.
+ */
+export async function fetchOwnedRepositoryCommitStats(
+  graphqlClient,
+  repositories,
+  login,
+  aliases = []
+) {
+  const ownedLinkedCommits = (repositories || []).reduce(
+    (sum, repo) => sum + (repo.defaultBranchRef?.target?.history?.totalCount || 0),
+    0
+  );
+
+  const repositoryCounts = await Promise.all((repositories || []).map(async (repository) => {
+    if (!repository.id || !repository.defaultBranchRef) return 0;
+    const matchingOids = new Set();
+    let after = null;
+
+    do {
+      const response = await graphqlClient(GET_REPOSITORY_COMMITS_QUERY, {
+        repositoryId: repository.id,
+        after,
+      });
+      const history = response?.node?.defaultBranchRef?.target?.history;
+      if (!history) break;
+      for (const commit of history.nodes || []) {
+        if (commitMatchesIdentity(commit.author, login, aliases)) matchingOids.add(commit.oid);
+      }
+      after = history.pageInfo?.hasNextPage ? history.pageInfo.endCursor : null;
+    } while (after);
+
+    return matchingOids.size;
+  }));
+
+  return {
+    ownedLinkedCommits,
+    ownedAuthoredCommits: repositoryCounts.reduce((sum, count) => sum + count, 0),
+  };
 }
 
 /** Fetches and aggregates each contribution year to produce lifetime totals. */
@@ -126,7 +178,11 @@ export async function fetchLifetimeContributions(graphqlClient, login, years, no
  * @param {object} user GraphQL user object
  * @returns {object} Aggregated overall stats
  */
-export function calculateOverallStats(user, lifetimeContributions = null) {
+export function calculateOverallStats(
+  user,
+  lifetimeContributions = null,
+  repositoryCommitStats = null
+) {
   const collection = user?.contributionsCollection || {};
   const totals = lifetimeContributions || collection;
   const repoNodes = user?.repositories?.nodes || [];
@@ -136,7 +192,13 @@ export function calculateOverallStats(user, lifetimeContributions = null) {
   // With an authenticated viewer and read:user scope, GitHub includes accessible
   // private commits in this field. restrictedContributionsCount is deliberately
   // not added because it contains every restricted contribution type, not commits.
-  const totalCommits = totals.totalCommitContributions || 0;
+  const contributionCommits = totals.totalCommitContributions || 0;
+  const ownedLinkedCommits = repositoryCommitStats?.ownedLinkedCommits || 0;
+  const ownedAuthoredCommits = repositoryCommitStats?.ownedAuthoredCommits || 0;
+  const externalContributionCommits = Math.max(0, contributionCommits - ownedLinkedCommits);
+  const totalCommits = repositoryCommitStats
+    ? ownedAuthoredCommits + externalContributionCommits
+    : contributionCommits;
   const totalPRs = totals.totalPullRequestContributions || 0;
   const totalIssues = totals.totalIssueContributions || 0;
   const totalReviews = totals.totalPullRequestReviewContributions || 0;
@@ -355,6 +417,7 @@ export async function fetchUserData(
   options = {}
 ) {
   const languageExclusions = options.languageExclusions || config.languageExclusions || [];
+  const commitAuthorAliases = options.commitAuthorAliases || config.commitAuthorAliases || [];
   const targetUsername = username || 'Icetext';
   const allowMockData = options.allowMockData === true;
 
@@ -383,7 +446,7 @@ export async function fetchUserData(
   }
 
   const [repoNodes, lifetimeContributions] = await Promise.all([
-    fetchAllRepositories(graphqlWithAuth, targetUsername),
+    fetchAllRepositories(graphqlWithAuth, targetUsername, rawUserData.id),
     fetchLifetimeContributions(
       graphqlWithAuth,
       targetUsername,
@@ -398,11 +461,27 @@ export async function fetchUserData(
     );
   }
 
+  const repositoryCommitStats = await fetchOwnedRepositoryCommitStats(
+    graphqlWithAuth,
+    repoNodes,
+    targetUsername,
+    commitAuthorAliases
+  );
   rawUserData.repositories = { nodes: repoNodes };
-  return processUserData(rawUserData, languageExclusions, lifetimeContributions);
+  return processUserData(
+    rawUserData,
+    languageExclusions,
+    lifetimeContributions,
+    repositoryCommitStats
+  );
 }
 
-function processUserData(rawUserData, languageExclusions, lifetimeContributions = null) {
+function processUserData(
+  rawUserData,
+  languageExclusions,
+  lifetimeContributions = null,
+  repositoryCommitStats = null
+) {
 
   const user = {
     name: rawUserData.name || rawUserData.login || targetUsername,
@@ -410,7 +489,11 @@ function processUserData(rawUserData, languageExclusions, lifetimeContributions 
     avatarUrl: rawUserData.avatarUrl || '',
   };
 
-  const overallStats = calculateOverallStats(rawUserData, lifetimeContributions);
+  const overallStats = calculateOverallStats(
+    rawUserData,
+    lifetimeContributions,
+    repositoryCommitStats
+  );
   const streakStats = calculateStreakStats(rawUserData.contributionsCollection?.contributionCalendar);
   const topLanguages = aggregateTopLanguages(rawUserData.repositories?.nodes || [], languageExclusions);
 
@@ -432,6 +515,7 @@ export async function getUserStats(customOptions = {}) {
   const token = customOptions.githubToken || config.githubToken;
   const options = {
     languageExclusions: customOptions.languageExclusions || config.languageExclusions,
+    commitAuthorAliases: customOptions.commitAuthorAliases || config.commitAuthorAliases,
     ...customOptions,
   };
 

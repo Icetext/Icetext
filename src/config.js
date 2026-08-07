@@ -38,6 +38,7 @@ const DEFAULT_CONFIG = {
     repositories: true,
   },
   languageExclusions: ['HTML', 'CSS'],
+  commitAuthorAliases: ['Icetext'],
 };
 
 /**
@@ -79,6 +80,9 @@ export function loadConfig(customConfigPath = DEFAULT_CONFIG_PATH) {
     languageExclusions: Array.isArray(fileConfig.languageExclusions)
       ? fileConfig.languageExclusions
       : DEFAULT_CONFIG.languageExclusions,
+    commitAuthorAliases: Array.isArray(fileConfig.commitAuthorAliases)
+      ? fileConfig.commitAuthorAliases
+      : DEFAULT_CONFIG.commitAuthorAliases,
   };
 
   return Object.freeze(mergedConfig);
