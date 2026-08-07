@@ -15,7 +15,7 @@
     </g>
     <g class="row" style="animation-delay:230ms">
       <text x="27" y="97" class="stat-label">Total Commits:</text>
-      <text x="247" y="97" class="stat-value">67</text>
+      <text x="247" y="97" class="stat-value">209</text>
     </g>
     <g class="row" style="animation-delay:310ms">
       <text x="27" y="124" class="stat-label">Total PRs:</text>
@@ -32,6 +32,6 @@
   <g transform="translate(391,121)">
     <circle r="44" fill="none" stroke="#313244" stroke-width="7"/>
     <circle cy="-44" r="4" fill="#94e2d5"/>
-    <text y="1" class="rank">B</text>
+    <text y="1" class="rank">B+</text>
   </g>
 </svg>
