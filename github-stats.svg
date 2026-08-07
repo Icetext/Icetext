@@ -1,7 +1,7 @@
 <svg
   width="495"
-  height="195"
-  viewBox="0 0 495 195"
+  height="190"
+  viewBox="0 0 495 190"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
   role="img"
@@ -12,28 +12,34 @@
       font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: #58a6ff;
       animation: fadeIn 0.8s ease-in-out forwards;
+      dominant-baseline: central;
     }
     .stat-label {
       font: 400 14px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: #c9d1d9;
+      dominant-baseline: central;
     }
     .stat-value {
       font: 600 14px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: #c9d1d9;
+      dominant-baseline: central;
     }
     .stat-note {
       font: 400 11px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: #58a6ff;
       opacity: 0.8;
+      dominant-baseline: central;
     }
     .rank-text {
       font: 700 24px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: #58a6ff;
+      dominant-baseline: central;
     }
     .rank-label {
       font: 500 11px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: #c9d1d9;
       opacity: 0.75;
+      dominant-baseline: central;
     }
     .stagger {
       opacity: 0;
@@ -58,61 +64,61 @@
     y="0.5"
     rx="10"
     width="494"
-    height="194"
+    height="189"
     fill="#0d1117"
     stroke="#30363d"
     stroke-opacity="1"
   />
 
-  <g transform="translate(25, 35)">
+  <g transform="translate(25, 25)">
     <!-- Octicon GitHub Header Icon -->
     <svg fill="#58a6ff" height="20" viewBox="0 0 16 16" version="1.1" width="20" aria-hidden="true">
       <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
     </svg>
-    <text x="30" y="15" class="header">Icetext&apos;s GitHub Stats</text>
+    <text x="30" y="10" class="header" dominant-baseline="central">Icetext&apos;s GitHub Stats</text>
   </g>
 
   <!-- Left Column: Metrics -->
   <g>
     
-      <g class="stagger" style="animation-delay: 150ms" transform="translate(25, 62)">
+      <g class="stagger" style="animation-delay: 150ms" transform="translate(25, 48)">
         <svg class="icon" viewBox="0 0 16 16" version="1.1" width="16" height="16" fill="#58a6ff">
           <path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/>
         </svg>
-        <text class="stat-label" x="25" y="12.5">Total Stars:</text>
-        <text class="stat-value" x="170" y="12.5">62</text>
+        <text class="stat-label" x="25" y="8" dominant-baseline="central">Total Stars:</text>
+        <text class="stat-value" x="170" y="8" dominant-baseline="central">62</text>
         
       </g>
-      <g class="stagger" style="animation-delay: 250ms" transform="translate(25, 87)">
+      <g class="stagger" style="animation-delay: 250ms" transform="translate(25, 71)">
         <svg class="icon" viewBox="0 0 16 16" version="1.1" width="16" height="16" fill="#58a6ff">
           <path fill-rule="evenodd" d="M10.5 7.75a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm1.43 0a3.993 3.993 0 01-2.68 3.782v3.718a.75.75 0 01-1.5 0v-3.718A3.993 3.993 0 015.07 7.75H1.75a.75.75 0 010-1.5h3.32a3.993 3.993 0 012.68-3.782V.75a.75.75 0 011.5 0v1.718a3.993 3.993 0 012.68 3.782h3.32a.75.75 0 010 1.5h-3.32z"/>
         </svg>
-        <text class="stat-label" x="25" y="12.5">Total Commits:</text>
-        <text class="stat-value" x="170" y="12.5">1,027</text>
+        <text class="stat-label" x="25" y="8" dominant-baseline="central">Total Commits:</text>
+        <text class="stat-value" x="170" y="8" dominant-baseline="central">1,027</text>
         
       </g>
-      <g class="stagger" style="animation-delay: 350ms" transform="translate(25, 112)">
+      <g class="stagger" style="animation-delay: 350ms" transform="translate(25, 94)">
         <svg class="icon" viewBox="0 0 16 16" version="1.1" width="16" height="16" fill="#58a6ff">
           <path fill-rule="evenodd" d="M7.177 3.073L9.573.677A.25.25 0 0110 .854v4.792a.25.25 0 01-.427.177L7.177 3.427a.25.25 0 010-.354zM3.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 011.5 3.25zM11 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 018.75 3.25zM3.75 12a.75.75 0 100 1.5.75.75 0 000-1.5zm7.5 0a.75.75 0 100 1.5.75.75 0 000-1.5z"/>
         </svg>
-        <text class="stat-label" x="25" y="12.5">Total PRs:</text>
-        <text class="stat-value" x="170" y="12.5">67</text>
+        <text class="stat-label" x="25" y="8" dominant-baseline="central">Total PRs:</text>
+        <text class="stat-value" x="170" y="8" dominant-baseline="central">67</text>
         
       </g>
-      <g class="stagger" style="animation-delay: 450ms" transform="translate(25, 137)">
+      <g class="stagger" style="animation-delay: 450ms" transform="translate(25, 117)">
         <svg class="icon" viewBox="0 0 16 16" version="1.1" width="16" height="16" fill="#58a6ff">
           <path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm9 3a1 1 0 11-2 0 1 1 0 012 0zm-.25-6.25a.75.75 0 00-1.5 0v3.5a.75.75 0 001.5 0v-3.5z"/>
         </svg>
-        <text class="stat-label" x="25" y="12.5">Total Issues:</text>
-        <text class="stat-value" x="170" y="12.5">32</text>
+        <text class="stat-label" x="25" y="8" dominant-baseline="central">Total Issues:</text>
+        <text class="stat-value" x="170" y="8" dominant-baseline="central">32</text>
         
       </g>
-      <g class="stagger" style="animation-delay: 550ms" transform="translate(25, 162)">
+      <g class="stagger" style="animation-delay: 550ms" transform="translate(25, 140)">
         <svg class="icon" viewBox="0 0 16 16" version="1.1" width="16" height="16" fill="#58a6ff">
           <path fill-rule="evenodd" d="M2 2.5A1.5 1.5 0 013.5 1h9A1.5 1.5 0 0114 2.5v11a1.5 1.5 0 01-1.5 1.5h-9A1.5 1.5 0 012 13.5v-11zM3.5 2a.5.5 0 00-.5.5v11a.5.5 0 00.5.5h9a.5.5 0 00.5-.5v-11a.5.5 0 00-.5-.5h-9zM5 4.75A.75.75 0 015.75 4h4.5a.75.75 0 010 1.5h-4.5A.75.75 0 015 4.75zm0 3A.75.75 0 015.75 7h4.5a.75.75 0 010 1.5h-4.5A.75.75 0 015 7.75zm0 3a.75.75 0 01.75-.75h2.5a.75.75 0 010 1.5h-2.5a.75.75 0 01-.75-.75z"/>
         </svg>
-        <text class="stat-label" x="25" y="12.5">Contributed to:</text>
-        <text class="stat-value" x="170" y="12.5">15</text>
+        <text class="stat-label" x="25" y="8" dominant-baseline="central">Contributed to:</text>
+        <text class="stat-value" x="170" y="8" dominant-baseline="central">15</text>
         
       </g>
   </g>
@@ -141,8 +147,8 @@
       transform="rotate(-90)"
     />
     <!-- Rank Text Inside Ring -->
-    <text cx="0" cy="0" x="0" y="8" text-anchor="middle" class="rank-text">S</text>
+    <text x="0" y="0" text-anchor="middle" class="rank-text" dominant-baseline="central">S</text>
     <!-- Rank Label Below Ring -->
-    <text x="0" y="58" text-anchor="middle" class="rank-label">Rank Grade</text>
+    <text x="0" y="55" text-anchor="middle" class="rank-label" dominant-baseline="central">Rank Grade</text>
   </g>
 </svg>

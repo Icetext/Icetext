@@ -32,20 +32,25 @@ export function renderTopLangsCard(data = [], themeName = 'dark', options = {}) 
     languages = data.topLanguages;
   }
 
-  const title = options.title || 'Most Used Languages';
+  const rawTitle = options.title || 'Most Used Languages';
+  const title = rawTitle.length > 36 ? rawTitle.substring(0, 33) + '...' : rawTitle;
   const width = options.width || 495;
-  const height = options.height || 215;
-  const borderRadius = options.borderRadius ?? theme.borderRadius ?? 10;
   const maxLangs = options.maxLangs || 6;
 
   // Take top N languages
   const topLangs = languages.slice(0, maxLangs);
+  const rowCount = Math.ceil(topLangs.length / 2);
+
+  // Dynamic height calculation: 3 rows (6 langs) => 175px
+  const defaultHeight = topLangs.length === 0 ? 120 : 88 + (rowCount - 1) * 26 + 35;
+  const height = options.height || defaultHeight;
+  const borderRadius = options.borderRadius ?? theme.borderRadius ?? 10;
 
   // Recalculate relative percentages for topLangs if needed or use existing
   const barWidth = width - 50; // 445px for width=495
   const barHeight = 10;
   const barX = 25;
-  const barY = 60;
+  const barY = 55;
 
   // Build segmented progress bar rects
   let currentX = barX;
@@ -68,7 +73,7 @@ export function renderTopLangsCard(data = [], themeName = 'dark', options = {}) 
     })
     .join('');
 
-  // Build Grid items (2 columns x 3 rows)
+  // Build Grid items (2 columns x N rows)
   const colWidth = (width - 60) / 2; // ~217px each
   const gridItems = topLangs
     .map((lang, index) => {
@@ -76,23 +81,24 @@ export function renderTopLangsCard(data = [], themeName = 'dark', options = {}) 
       const row = Math.floor(index / 2);
 
       const itemX = barX + col * (colWidth + 10);
-      const itemY = 95 + row * 30;
+      const itemY = 88 + row * 26;
       const animDelay = 300 + index * 100;
 
       const langColor = lang.color || '#858585';
       const pctStr = `${(lang.percentage || 0).toFixed(1)}%`;
+      const displayName = lang.name && lang.name.length > 15 ? lang.name.substring(0, 13) + '...' : (lang.name || 'Unknown');
 
       return `
       <g class="stagger" style="animation-delay: ${animDelay}ms" transform="translate(${itemX}, ${itemY})">
         <circle cx="6" cy="6" r="5" fill="${langColor}" />
-        <text x="18" y="10" class="lang-name">${escapeXml(lang.name)}</text>
-        <text x="${colWidth - 10}" y="10" text-anchor="end" class="lang-percent">${pctStr}</text>
+        <text x="18" y="6" class="lang-name" dominant-baseline="central">${escapeXml(displayName)}</text>
+        <text x="${colWidth - 10}" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">${pctStr}</text>
       </g>`;
     })
     .join('');
 
   const emptyState = topLangs.length === 0
-    ? `<text x="${width / 2}" y="${height / 2 + 10}" text-anchor="middle" class="stat-label">No language data available</text>`
+    ? `<text x="${width / 2}" y="${height / 2 + 10}" text-anchor="middle" class="stat-label" dominant-baseline="central">No language data available</text>`
     : '';
 
   return `<svg
@@ -109,14 +115,17 @@ export function renderTopLangsCard(data = [], themeName = 'dark', options = {}) 
       font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: ${theme.title_color};
       animation: fadeIn 0.8s ease-in-out forwards;
+      dominant-baseline: central;
     }
     .lang-name {
       font: 600 13px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: ${theme.text_color};
+      dominant-baseline: central;
     }
     .lang-percent {
       font: 400 13px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: ${theme.icon_color};
+      dominant-baseline: central;
     }
     .bar-segment {
       opacity: 0;
@@ -143,12 +152,12 @@ export function renderTopLangsCard(data = [], themeName = 'dark', options = {}) 
     stroke-opacity="1"
   />
 
-  <g transform="translate(25, 35)">
+  <g transform="translate(25, 25)">
     <!-- Code Bracket Header Icon -->
     <svg fill="${theme.title_color}" height="20" viewBox="0 0 16 16" version="1.1" width="20" aria-hidden="true">
       <path fill-rule="evenodd" d="M4.72 3.22a.75.75 0 011.06 1.06L2.06 8l3.72 3.72a.75.75 0 11-1.06 1.06L.47 8.53a.75.75 0 010-1.06l4.25-4.25zm6.56 0a.75.75 0 10-1.06 1.06L13.94 8l-3.72 3.72a.75.75 0 101.06 1.06l4.25-4.25a.75.75 0 000-1.06l-4.25-4.25z"/>
     </svg>
-    <text x="30" y="15" class="header">${escapeXml(title)}</text>
+    <text x="30" y="10" class="header" dominant-baseline="central">${escapeXml(title)}</text>
   </g>
 
   ${

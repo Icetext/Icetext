@@ -105,9 +105,11 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
 
   const { rank, percentile } = calculateRank(stats);
 
-  const title = options.title || `${username}'s GitHub Stats`;
+  // Helper to truncate long titles to prevent overlap with rank ring
+  const rawTitle = options.title || `${username}'s GitHub Stats`;
+  const title = rawTitle.length > 28 ? rawTitle.substring(0, 25) + '...' : rawTitle;
   const width = options.width || 495;
-  const height = options.height || 195;
+  const height = options.height || 190;
   const borderRadius = options.borderRadius ?? theme.borderRadius ?? 10;
 
   // Metric items configuration
@@ -149,10 +151,10 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (circumference * percentile) / 100;
 
-  // Generate metric SVG rows
+  // Generate metric SVG rows (5 rows centered vertically)
   const itemRows = items
     .map((item, index) => {
-      const y = 62 + index * 25;
+      const y = 48 + index * 23;
       const animDelay = 150 + index * 100;
 
       return `
@@ -160,11 +162,11 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
         <svg class="icon" viewBox="0 0 16 16" version="1.1" width="16" height="16" fill="${theme.icon_color}">
           ${item.icon}
         </svg>
-        <text class="stat-label" x="25" y="12.5">${escapeXml(item.item_label || item.label)}</text>
-        <text class="stat-value" x="170" y="12.5">${escapeXml(item.value)}</text>
+        <text class="stat-label" x="25" y="8" dominant-baseline="central">${escapeXml(item.item_label || item.label)}</text>
+        <text class="stat-value" x="170" y="8" dominant-baseline="central">${escapeXml(item.value)}</text>
         ${
           item.note
-            ? `<text class="stat-note" x="220" y="12.5">${escapeXml(item.note)}</text>`
+            ? `<text class="stat-note" x="220" y="8" dominant-baseline="central">${escapeXml(item.note)}</text>`
             : ''
         }
       </g>`;
@@ -185,28 +187,34 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
       font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: ${theme.title_color};
       animation: fadeIn 0.8s ease-in-out forwards;
+      dominant-baseline: central;
     }
     .stat-label {
       font: 400 14px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: ${theme.text_color};
+      dominant-baseline: central;
     }
     .stat-value {
       font: 600 14px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: ${theme.text_color};
+      dominant-baseline: central;
     }
     .stat-note {
       font: 400 11px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: ${theme.icon_color};
       opacity: 0.8;
+      dominant-baseline: central;
     }
     .rank-text {
       font: 700 24px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: ${theme.title_color};
+      dominant-baseline: central;
     }
     .rank-label {
       font: 500 11px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: ${theme.text_color};
       opacity: 0.75;
+      dominant-baseline: central;
     }
     .stagger {
       opacity: 0;
@@ -237,12 +245,12 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
     stroke-opacity="1"
   />
 
-  <g transform="translate(25, 35)">
+  <g transform="translate(25, 25)">
     <!-- Octicon GitHub Header Icon -->
     <svg fill="${theme.title_color}" height="20" viewBox="0 0 16 16" version="1.1" width="20" aria-hidden="true">
       <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
     </svg>
-    <text x="30" y="15" class="header">${escapeXml(title)}</text>
+    <text x="30" y="10" class="header" dominant-baseline="central">${escapeXml(title)}</text>
   </g>
 
   <!-- Left Column: Metrics -->
@@ -251,7 +259,7 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
   </g>
 
   <!-- Right Column: Rank Badge -->
-  <g transform="translate(${width - 95}, ${height / 2 + 5})">
+  <g transform="translate(${width - 95}, 102.5)">
     <!-- Rank Outer Circular Ring Background -->
     <circle
       cx="0"
@@ -274,9 +282,9 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
       transform="rotate(-90)"
     />
     <!-- Rank Text Inside Ring -->
-    <text cx="0" cy="0" x="0" y="8" text-anchor="middle" class="rank-text">${escapeXml(rank)}</text>
+    <text x="0" y="0" text-anchor="middle" class="rank-text" dominant-baseline="central">${escapeXml(rank)}</text>
     <!-- Rank Label Below Ring -->
-    <text x="0" y="58" text-anchor="middle" class="rank-label">Rank Grade</text>
+    <text x="0" y="55" text-anchor="middle" class="rank-label" dominant-baseline="central">Rank Grade</text>
   </g>
 </svg>`;
 }

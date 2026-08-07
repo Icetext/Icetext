@@ -1,7 +1,7 @@
 <svg
   width="495"
-  height="215"
-  viewBox="0 0 495 215"
+  height="175"
+  viewBox="0 0 495 175"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
   role="img"
@@ -12,14 +12,17 @@
       font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: #58a6ff;
       animation: fadeIn 0.8s ease-in-out forwards;
+      dominant-baseline: central;
     }
     .lang-name {
       font: 600 13px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: #c9d1d9;
+      dominant-baseline: central;
     }
     .lang-percent {
       font: 400 13px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
       fill: #58a6ff;
+      dominant-baseline: central;
     }
     .bar-segment {
       opacity: 0;
@@ -40,18 +43,18 @@
     y="0.5"
     rx="10"
     width="494"
-    height="214"
+    height="174"
     fill="#0d1117"
     stroke="#30363d"
     stroke-opacity="1"
   />
 
-  <g transform="translate(25, 35)">
+  <g transform="translate(25, 25)">
     <!-- Code Bracket Header Icon -->
     <svg fill="#58a6ff" height="20" viewBox="0 0 16 16" version="1.1" width="20" aria-hidden="true">
       <path fill-rule="evenodd" d="M4.72 3.22a.75.75 0 011.06 1.06L2.06 8l3.72 3.72a.75.75 0 11-1.06 1.06L.47 8.53a.75.75 0 010-1.06l4.25-4.25zm6.56 0a.75.75 0 10-1.06 1.06L13.94 8l-3.72 3.72a.75.75 0 101.06 1.06l4.25-4.25a.75.75 0 000-1.06l-4.25-4.25z"/>
     </svg>
-    <text x="30" y="15" class="header">Most Used Languages</text>
+    <text x="30" y="10" class="header" dominant-baseline="central">Most Used Languages</text>
   </g>
 
   
@@ -59,17 +62,17 @@
   <g>
     <defs>
       <clipPath id="bar-clip">
-        <rect x="25" y="60" width="445" height="10" rx="5" />
+        <rect x="25" y="55" width="445" height="10" rx="5" />
       </clipPath>
     </defs>
     <!-- Background track -->
-    <rect x="25" y="60" width="445" height="10" rx="5" fill="#30363d" opacity="0.4" />
+    <rect x="25" y="55" width="445" height="10" rx="5" fill="#30363d" opacity="0.4" />
     <g clip-path="url(#bar-clip)">
       <rect
         class="bar-segment"
         style="animation-delay: 200ms"
         x="25.00"
-        y="60"
+        y="55"
         width="153.97"
         height="10"
         fill="#3178c6"
@@ -77,7 +80,7 @@
         class="bar-segment"
         style="animation-delay: 280ms"
         x="178.97"
-        y="60"
+        y="55"
         width="143.73"
         height="10"
         fill="#f1e05a"
@@ -85,7 +88,7 @@
         class="bar-segment"
         style="animation-delay: 360ms"
         x="322.71"
-        y="60"
+        y="55"
         width="75.20"
         height="10"
         fill="#3572A5"
@@ -93,7 +96,7 @@
         class="bar-segment"
         style="animation-delay: 440ms"
         x="397.91"
-        y="60"
+        y="55"
         width="51.18"
         height="10"
         fill="#dea584"
@@ -101,7 +104,7 @@
         class="bar-segment"
         style="animation-delay: 520ms"
         x="449.09"
-        y="60"
+        y="55"
         width="20.47"
         height="10"
         fill="#00ADD8"
@@ -112,30 +115,30 @@
   <!-- Language Grid -->
   <g>
     
-      <g class="stagger" style="animation-delay: 300ms" transform="translate(25, 95)">
+      <g class="stagger" style="animation-delay: 300ms" transform="translate(25, 88)">
         <circle cx="6" cy="6" r="5" fill="#3178c6" />
-        <text x="18" y="10" class="lang-name">TypeScript</text>
-        <text x="207.5" y="10" text-anchor="end" class="lang-percent">34.6%</text>
+        <text x="18" y="6" class="lang-name" dominant-baseline="central">TypeScript</text>
+        <text x="207.5" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">34.6%</text>
       </g>
-      <g class="stagger" style="animation-delay: 400ms" transform="translate(252.5, 95)">
+      <g class="stagger" style="animation-delay: 400ms" transform="translate(252.5, 88)">
         <circle cx="6" cy="6" r="5" fill="#f1e05a" />
-        <text x="18" y="10" class="lang-name">JavaScript</text>
-        <text x="207.5" y="10" text-anchor="end" class="lang-percent">32.3%</text>
+        <text x="18" y="6" class="lang-name" dominant-baseline="central">JavaScript</text>
+        <text x="207.5" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">32.3%</text>
       </g>
-      <g class="stagger" style="animation-delay: 500ms" transform="translate(25, 125)">
+      <g class="stagger" style="animation-delay: 500ms" transform="translate(25, 114)">
         <circle cx="6" cy="6" r="5" fill="#3572A5" />
-        <text x="18" y="10" class="lang-name">Python</text>
-        <text x="207.5" y="10" text-anchor="end" class="lang-percent">16.9%</text>
+        <text x="18" y="6" class="lang-name" dominant-baseline="central">Python</text>
+        <text x="207.5" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">16.9%</text>
       </g>
-      <g class="stagger" style="animation-delay: 600ms" transform="translate(252.5, 125)">
+      <g class="stagger" style="animation-delay: 600ms" transform="translate(252.5, 114)">
         <circle cx="6" cy="6" r="5" fill="#dea584" />
-        <text x="18" y="10" class="lang-name">Rust</text>
-        <text x="207.5" y="10" text-anchor="end" class="lang-percent">11.5%</text>
+        <text x="18" y="6" class="lang-name" dominant-baseline="central">Rust</text>
+        <text x="207.5" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">11.5%</text>
       </g>
-      <g class="stagger" style="animation-delay: 700ms" transform="translate(25, 155)">
+      <g class="stagger" style="animation-delay: 700ms" transform="translate(25, 140)">
         <circle cx="6" cy="6" r="5" fill="#00ADD8" />
-        <text x="18" y="10" class="lang-name">Go</text>
-        <text x="207.5" y="10" text-anchor="end" class="lang-percent">4.6%</text>
+        <text x="18" y="6" class="lang-name" dominant-baseline="central">Go</text>
+        <text x="207.5" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">4.6%</text>
       </g>
   </g>
   
