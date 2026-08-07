@@ -1,13 +1,7 @@
 {
   "username": "Icetext",
   "theme": {
-    "name": "default",
-    "bgColor": "#0d1117",
-    "titleColor": "#58a6ff",
-    "textColor": "#c9d1d9",
-    "iconColor": "#8b949e",
-    "borderColor": "#30363d",
-    "accentColor": "#1f6feb",
+    "name": "catppuccin",
     "borderRadius": 10
   },
   "output": {
