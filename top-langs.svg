@@ -73,49 +73,41 @@
         style="animation-delay: 200ms"
         x="25.00"
         y="52"
-        width="212.71"
+        width="153.97"
         height="8"
         fill="#3178c6"
       /><rect
         class="bar-segment"
         style="animation-delay: 280ms"
-        x="237.71"
+        x="178.97"
         y="52"
-        width="154.86"
+        width="143.73"
         height="8"
         fill="#f1e05a"
       /><rect
         class="bar-segment"
         style="animation-delay: 360ms"
-        x="392.57"
+        x="322.71"
         y="52"
-        width="19.13"
+        width="75.20"
         height="8"
-        fill="#178600"
+        fill="#3572A5"
       /><rect
         class="bar-segment"
         style="animation-delay: 440ms"
-        x="411.70"
+        x="397.91"
         y="52"
-        width="19.13"
+        width="51.18"
         height="8"
-        fill="#c6538c"
+        fill="#dea584"
       /><rect
         class="bar-segment"
         style="animation-delay: 520ms"
-        x="430.84"
+        x="449.09"
         y="52"
-        width="16.47"
+        width="20.47"
         height="8"
-        fill="#1d365d"
-      /><rect
-        class="bar-segment"
-        style="animation-delay: 600ms"
-        x="447.30"
-        y="52"
-        width="8.90"
-        height="8"
-        fill="#3572A5"
+        fill="#00ADD8"
       />
     </g>
   </g>
@@ -126,32 +118,27 @@
       <g class="stagger" style="animation-delay: 300ms" transform="translate(25, 78)">
         <circle cx="6" cy="6" r="5" fill="#3178c6" />
         <text x="18" y="6" class="lang-name" dominant-baseline="central">TypeScript</text>
-        <text x="175" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">47.8%</text>
+        <text x="175" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">34.6%</text>
       </g>
       <g class="stagger" style="animation-delay: 400ms" transform="translate(235, 78)">
         <circle cx="6" cy="6" r="5" fill="#f1e05a" />
         <text x="18" y="6" class="lang-name" dominant-baseline="central">JavaScript</text>
-        <text x="175" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">34.8%</text>
+        <text x="175" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">32.3%</text>
       </g>
       <g class="stagger" style="animation-delay: 500ms" transform="translate(25, 100)">
-        <circle cx="6" cy="6" r="5" fill="#178600" />
-        <text x="18" y="6" class="lang-name" dominant-baseline="central">C#</text>
-        <text x="175" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">4.3%</text>
-      </g>
-      <g class="stagger" style="animation-delay: 600ms" transform="translate(235, 100)">
-        <circle cx="6" cy="6" r="5" fill="#c6538c" />
-        <text x="18" y="6" class="lang-name" dominant-baseline="central">SCSS</text>
-        <text x="175" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">4.3%</text>
-      </g>
-      <g class="stagger" style="animation-delay: 700ms" transform="translate(25, 122)">
-        <circle cx="6" cy="6" r="5" fill="#1d365d" />
-        <text x="18" y="6" class="lang-name" dominant-baseline="central">Less</text>
-        <text x="175" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">3.7%</text>
-      </g>
-      <g class="stagger" style="animation-delay: 800ms" transform="translate(235, 122)">
         <circle cx="6" cy="6" r="5" fill="#3572A5" />
         <text x="18" y="6" class="lang-name" dominant-baseline="central">Python</text>
-        <text x="175" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">2.0%</text>
+        <text x="175" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">16.9%</text>
+      </g>
+      <g class="stagger" style="animation-delay: 600ms" transform="translate(235, 100)">
+        <circle cx="6" cy="6" r="5" fill="#dea584" />
+        <text x="18" y="6" class="lang-name" dominant-baseline="central">Rust</text>
+        <text x="175" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">11.5%</text>
+      </g>
+      <g class="stagger" style="animation-delay: 700ms" transform="translate(25, 122)">
+        <circle cx="6" cy="6" r="5" fill="#00ADD8" />
+        <text x="18" y="6" class="lang-name" dominant-baseline="central">Go</text>
+        <text x="175" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">4.6%</text>
       </g>
   </g>
   
