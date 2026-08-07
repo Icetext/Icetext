@@ -20,9 +20,7 @@
 
 # 📊 GitHub Statistics:
 <p align="center">
-  <img src="./github-stats.svg?v=2" alt="Icetext's GitHub Stats" width="495" />
-  <img src="./streak.svg?v=2" alt="Icetext's Streak Stats" width="495" />
-</p>
-<p align="center">
-  <img src="./top-langs.svg?v=2" alt="Top Languages" width="495" />
+  <img src="./github-stats.svg?v=3" alt="Icetext's GitHub Stats" width="495" />
+  <img src="./streak.svg?v=3" alt="Icetext's Streak Stats" width="495" />
+  <img src="./top-langs.svg?v=3" alt="Top Languages" width="495" />
 </p>

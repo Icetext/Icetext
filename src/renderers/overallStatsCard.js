@@ -109,7 +109,7 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
   const rawTitle = options.title || `${username}'s GitHub Stats`;
   const title = rawTitle.length > 28 ? rawTitle.substring(0, 25) + '...' : rawTitle;
   const width = options.width || 495;
-  const height = options.height || 190;
+  const height = options.height || 175;
   const borderRadius = options.borderRadius ?? theme.borderRadius ?? 10;
 
   // Metric items configuration
@@ -154,7 +154,7 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
   // Generate metric SVG rows (5 rows centered vertically)
   const itemRows = items
     .map((item, index) => {
-      const y = 48 + index * 23;
+      const y = 44 + index * 22;
       const animDelay = 150 + index * 100;
 
       return `
@@ -163,7 +163,7 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
           ${item.icon}
         </svg>
         <text class="stat-label" x="25" y="8" dominant-baseline="central">${escapeXml(item.item_label || item.label)}</text>
-        <text class="stat-value" x="170" y="8" dominant-baseline="central">${escapeXml(item.value)}</text>
+        <text class="stat-value" x="140" y="8" dominant-baseline="central">${escapeXml(item.value)}</text>
         ${
           item.note
             ? `<text class="stat-note" x="220" y="8" dominant-baseline="central">${escapeXml(item.note)}</text>`
@@ -184,34 +184,34 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
 >
   <style>
     .header {
-      font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
+      font: 600 18px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
       fill: ${theme.title_color};
       animation: fadeIn 0.8s ease-in-out forwards;
       dominant-baseline: central;
     }
     .stat-label {
-      font: 400 14px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
+      font: 400 14px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
       fill: ${theme.text_color};
       dominant-baseline: central;
     }
     .stat-value {
-      font: 600 14px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
+      font: 600 14px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
       fill: ${theme.text_color};
       dominant-baseline: central;
     }
     .stat-note {
-      font: 400 11px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
+      font: 400 11px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
       fill: ${theme.icon_color};
       opacity: 0.8;
       dominant-baseline: central;
     }
     .rank-text {
-      font: 700 24px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
+      font: 700 24px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
       fill: ${theme.title_color};
       dominant-baseline: central;
     }
     .rank-label {
-      font: 500 11px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
+      font: 500 11px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
       fill: ${theme.text_color};
       opacity: 0.75;
       dominant-baseline: central;
@@ -259,7 +259,7 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
   </g>
 
   <!-- Right Column: Rank Badge -->
-  <g transform="translate(${width - 95}, 102.5)">
+  <g transform="translate(${width - 120}, 95)">
     <!-- Rank Outer Circular Ring Background -->
     <circle
       cx="0"

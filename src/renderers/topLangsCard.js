@@ -41,16 +41,16 @@ export function renderTopLangsCard(data = [], themeName = 'dark', options = {}) 
   const topLangs = languages.slice(0, maxLangs);
   const rowCount = Math.ceil(topLangs.length / 2);
 
-  // Dynamic height calculation: 3 rows (6 langs) => 175px
-  const defaultHeight = topLangs.length === 0 ? 120 : 88 + (rowCount - 1) * 26 + 35;
+  // Dynamic height calculation: 3 rows (6 langs) => 150px
+  const defaultHeight = topLangs.length === 0 ? 120 : 78 + (rowCount - 1) * 22 + 28;
   const height = options.height || defaultHeight;
   const borderRadius = options.borderRadius ?? theme.borderRadius ?? 10;
 
   // Recalculate relative percentages for topLangs if needed or use existing
   const barWidth = width - 50; // 445px for width=495
-  const barHeight = 10;
+  const barHeight = 8;
   const barX = 25;
-  const barY = 55;
+  const barY = 52;
 
   // Build segmented progress bar rects
   let currentX = barX;
@@ -74,14 +74,13 @@ export function renderTopLangsCard(data = [], themeName = 'dark', options = {}) 
     .join('');
 
   // Build Grid items (2 columns x N rows)
-  const colWidth = (width - 60) / 2; // ~217px each
   const gridItems = topLangs
     .map((lang, index) => {
       const col = index % 2;
       const row = Math.floor(index / 2);
 
-      const itemX = barX + col * (colWidth + 10);
-      const itemY = 88 + row * 26;
+      const itemX = col === 0 ? barX : 235;
+      const itemY = 78 + row * 22;
       const animDelay = 300 + index * 100;
 
       const langColor = lang.color || '#858585';
@@ -92,7 +91,7 @@ export function renderTopLangsCard(data = [], themeName = 'dark', options = {}) 
       <g class="stagger" style="animation-delay: ${animDelay}ms" transform="translate(${itemX}, ${itemY})">
         <circle cx="6" cy="6" r="5" fill="${langColor}" />
         <text x="18" y="6" class="lang-name" dominant-baseline="central">${escapeXml(displayName)}</text>
-        <text x="${colWidth - 10}" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">${pctStr}</text>
+        <text x="175" y="6" text-anchor="end" class="lang-percent" dominant-baseline="central">${pctStr}</text>
       </g>`;
     })
     .join('');
@@ -112,18 +111,18 @@ export function renderTopLangsCard(data = [], themeName = 'dark', options = {}) 
 >
   <style>
     .header {
-      font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
+      font: 600 18px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
       fill: ${theme.title_color};
       animation: fadeIn 0.8s ease-in-out forwards;
       dominant-baseline: central;
     }
     .lang-name {
-      font: 600 13px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
+      font: 600 13px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
       fill: ${theme.text_color};
       dominant-baseline: central;
     }
     .lang-percent {
-      font: 400 13px 'Segoe UI', Ubuntu, Sans-Serif, -apple-system;
+      font: 400 13px 'Segoe UI', Ubuntu, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
       fill: ${theme.icon_color};
       dominant-baseline: central;
     }
