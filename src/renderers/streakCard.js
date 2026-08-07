@@ -137,16 +137,23 @@ export function renderStreakCard(data = {}, themeName = 'dark', options = {}) {
   </g>
 
   <!-- Block 2: Current Streak (Highlighted) -->
-  <g class="fade-in" style="animation-delay: 300ms" transform="translate(247.5, 20)">
-    <!-- Animated Flame Icon -->
-    <g transform="translate(0, 0)">
-      <svg class="fire-icon" x="-12" y="0" height="24" width="24" viewBox="0 0 16 16">
+  <g class="fade-in" style="animation-delay: 300ms" transform="translate(247.5, 60)">
+    <!-- Teal Circular Ring -->
+    <circle cx="0" cy="-20" r="32" fill="none" stroke="${theme.accent_color}" stroke-width="3" />
+    
+    <!-- Animated Flame Icon incorporated at the top -->
+    <g transform="translate(0, -52)">
+      <svg class="fire-icon" x="-10" y="0" height="20" width="20" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="${flameIconPath}"/>
       </svg>
     </g>
-    <text x="0" y="42" text-anchor="middle" class="stat-number" dominant-baseline="central">${formatNumber(currentStreak)}</text>
-    <text x="0" y="68" text-anchor="middle" class="stat-label" dominant-baseline="central">Current Streak</text>
-    <text x="0" y="86" text-anchor="middle" class="stat-range" dominant-baseline="central">${escapeXml(currentStreakRange)}</text>
+    
+    <!-- Number inside the ring (Mauve/purple) -->
+    <text x="0" y="-20" text-anchor="middle" class="stat-number" fill="${theme.icon_color}" dominant-baseline="central">${formatNumber(currentStreak)}</text>
+    
+    <!-- Text below the ring (Mauve/purple, Bold) -->
+    <text x="0" y="32" text-anchor="middle" class="stat-label" fill="${theme.icon_color}" style="font-weight: 700;" dominant-baseline="central">Current Streak</text>
+    <text x="0" y="50" text-anchor="middle" class="stat-range" dominant-baseline="central">${escapeXml(currentStreakRange)}</text>
   </g>
 
   <!-- Block 3: Longest Streak -->

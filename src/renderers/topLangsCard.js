@@ -38,7 +38,17 @@ export function renderTopLangsCard(data = [], themeName = 'dark', options = {}) 
   const maxLangs = options.maxLangs || 6;
 
   // Take top N languages
-  const topLangs = languages.slice(0, maxLangs);
+  let topLangs = languages.slice(0, maxLangs);
+
+  // Override colors for Catppuccin theme
+  if (themeName === 'catppuccin') {
+    const catppuccinPalette = ['#89b4fa', '#f9e2af', '#cba6f7', '#fab387', '#94e2d5', '#a6e3a1'];
+    topLangs = topLangs.map((lang, index) => ({
+      ...lang,
+      color: catppuccinPalette[index % catppuccinPalette.length]
+    }));
+  }
+
   const rowCount = Math.ceil(topLangs.length / 2);
 
   // Dynamic height calculation: 3 rows (6 langs) => 150px

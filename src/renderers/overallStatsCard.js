@@ -163,10 +163,10 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
           ${item.icon}
         </svg>
         <text class="stat-label" x="25" y="8" dominant-baseline="central">${escapeXml(item.item_label || item.label)}</text>
-        <text class="stat-value" x="150" y="8" dominant-baseline="central">${escapeXml(item.value)}</text>
+        <text class="stat-value" x="220" y="8" text-anchor="end" dominant-baseline="central">${escapeXml(item.value)}</text>
         ${
           item.note
-            ? `<text class="stat-note" x="220" y="8" dominant-baseline="central">${escapeXml(item.note)}</text>`
+            ? `<text class="stat-note" x="230" y="8" dominant-baseline="central">${escapeXml(item.note)}</text>`
             : ''
         }
       </g>`;
@@ -260,31 +260,26 @@ export function renderOverallStatsCard(data = {}, themeName = 'dark', options = 
 
   <!-- Right Column: Rank Badge -->
   <g transform="translate(${width - 120}, 95)">
-    <!-- Rank Outer Circular Ring Background -->
+    <!-- Rank Outer Circular Ring Background (Thick dark ring) -->
     <circle
       cx="0"
       cy="0"
       r="${radius}"
       fill="none"
       stroke="${theme.border_color}"
-      stroke-width="6"
+      stroke-width="12"
     />
-    <!-- Animated Rank Circle Progress Ring -->
+    <!-- Teal Accent Dot on Top -->
     <circle
-      class="rank-ring"
       cx="0"
-      cy="0"
-      r="${radius}"
-      fill="none"
-      stroke="${theme.accent_color}"
-      stroke-width="6"
-      stroke-linecap="round"
-      transform="rotate(-90)"
+      cy="-${radius}"
+      r="4"
+      fill="${theme.accent_color}"
     />
     <!-- Rank Text Inside Ring -->
     <text x="0" y="0" text-anchor="middle" class="rank-text" dominant-baseline="central">${escapeXml(rank)}</text>
     <!-- Rank Label Below Ring -->
-    <text x="0" y="55" text-anchor="middle" class="rank-label" dominant-baseline="central">Rank Grade</text>
+    <text x="0" y="65" text-anchor="middle" class="rank-label" dominant-baseline="central">Rank Grade</text>
   </g>
 </svg>`;
 }

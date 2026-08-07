@@ -67,6 +67,15 @@ export const themes = {
     accent_color: '#98c379',
     fire_color: '#d19a66',
   },
+  catppuccin: {
+    bg_color: '#1e1e2e',
+    title_color: '#94e2d5',
+    text_color: '#cdd6f4',
+    icon_color: '#cba6f7',
+    border_color: '#313244',
+    accent_color: '#94e2d5',
+    fire_color: '#fab387',
+  },
 };
 
 /**

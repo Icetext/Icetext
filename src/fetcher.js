@@ -97,13 +97,19 @@ export function calculateStreakStats(contributionCalendar) {
 
   // Calculate longest streak
   let longestStreak = 0;
+  let longestStreakStartStr = '';
+  let longestStreakEndStr = '';
   let tempStreak = 0;
+  let tempStreakStartStr = '';
 
   for (const day of allDays) {
     if (day.contributionCount > 0) {
+      if (tempStreak === 0) tempStreakStartStr = day.date;
       tempStreak++;
       if (tempStreak > longestStreak) {
         longestStreak = tempStreak;
+        longestStreakStartStr = tempStreakStartStr;
+        longestStreakEndStr = day.date;
       }
     } else {
       tempStreak = 0;
@@ -112,6 +118,8 @@ export function calculateStreakStats(contributionCalendar) {
 
   // Calculate current streak stepping backwards from the most recent day (today)
   let currentStreak = 0;
+  let currentStreakStartStr = '';
+  let currentStreakEndStr = '';
   const reversedDays = [...allDays].reverse();
 
   let startIndex = 0;
@@ -125,9 +133,11 @@ export function calculateStreakStats(contributionCalendar) {
   }
 
   if (startIndex !== -1) {
+    currentStreakEndStr = reversedDays[startIndex].date;
     for (let i = startIndex; i < reversedDays.length; i++) {
       if (reversedDays[i].contributionCount > 0) {
         currentStreak++;
+        currentStreakStartStr = reversedDays[i].date; // Keeps updating as we go backwards, ending up at the start
       } else {
         break;
       }
@@ -141,9 +151,21 @@ export function calculateStreakStats(contributionCalendar) {
       ? `${formatDate(startDateStr)} – ${formatDate(endDateStr)}`
       : '';
 
+  const currentStreakRange =
+    currentStreak > 0
+      ? `${formatDate(currentStreakStartStr)} – ${formatDate(currentStreakEndStr)}`
+      : formatDate(reversedDays[0]?.date) || '';
+      
+  const longestStreakRange =
+    longestStreak > 0
+      ? `${formatDate(longestStreakStartStr)} – ${formatDate(longestStreakEndStr)}`
+      : '';
+
   return {
     currentStreak,
+    currentStreakRange,
     longestStreak,
+    longestStreakRange,
     totalContributions,
     totalDays,
     streakRange,
@@ -190,7 +212,7 @@ export function aggregateTopLanguages(repoNodes = [], languageExclusions = []) {
   const totalBytes = Array.from(langMap.values()).reduce((sum, item) => sum + item.bytes, 0);
 
   const topLanguages = Array.from(langMap.values()).map((item) => {
-    const percentage = totalBytes > 0 ? Number(((item.bytes / totalBytes) * 100).toFixed(1)) : 0;
+    const percentage = totalBytes > 0 ? Number(((item.bytes / totalBytes) * 100).toFixed(2)) : 0;
     return {
       name: item.name,
       color: item.color,
