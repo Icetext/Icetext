@@ -19,8 +19,10 @@ An automated tool designed to generate customizable SVG cards for GitHub profile
 2. Navigate to **Settings** > **Secrets and variables** > **Actions**.
 3. Click **New repository secret**.
 4. Set **Name** to: `METRICS_TOKEN`
-5. Set **Value** to your GitHub Personal Access Token (PAT) generated with `repo` and `user` scopes.
-6. Click **Add secret**.
+5. Set **Value** to a classic GitHub Personal Access Token generated with `repo` and `read:user` scopes.
+   Fine-grained tokens are rejected because the generator cannot verify that every private repository was selected.
+6. If you contribute to private organization repositories that enforce SAML SSO, authorize the token for each organization.
+7. Click **Add secret**.
 
 ### Local Development (`.env`)
 1. Duplicate `.env.example` to `.env`:
@@ -41,3 +43,7 @@ An automated tool designed to generate customizable SVG cards for GitHub profile
 npm install
 npm start
 ```
+
+The generator intentionally exits with an error when the token is missing, belongs to a different user,
+lacks the required classic PAT scopes, or leaves restricted contributions inaccessible. Mock data can only
+be enabled explicitly from code for development and tests.
