@@ -49,5 +49,7 @@ lacks the required classic PAT scopes, or leaves restricted contributions inacce
 be enabled explicitly from code for development and tests.
 
 `commitAuthorAliases` in `config.json` lists historical Git author names or email addresses that belong to
-you. The generator scans every owned public and private repository's default branch and uses these aliases
-to include personal-project commits that GitHub cannot link to your account because of an old/unverified email.
+you. The generator scans the default branch of every accessible owned, collaborator, and organization
+repository—public or private—and uses these aliases to include commits that GitHub cannot link to your
+account because of an old or unverified email. Forks and commits that exist only on non-default branches
+are intentionally excluded to stay aligned with GitHub's contribution rules.

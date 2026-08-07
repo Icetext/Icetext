@@ -3,6 +3,7 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { config } from './config.js';
 import {
+  GET_COMMIT_REPOSITORIES_QUERY,
   GET_CONTRIBUTIONS_QUERY,
   GET_REPOSITORY_COMMITS_QUERY,
   GET_REPOSITORIES_QUERY,
@@ -105,6 +106,22 @@ export async function fetchAllRepositories(graphqlClient, login, authorId) {
   return repositories;
 }
 
+/** Fetches owned, collaborator, and organization repositories visible to the token. */
+export async function fetchCommitRepositories(graphqlClient, authorId) {
+  const repositories = [];
+  let after = null;
+
+  do {
+    const response = await graphqlClient(GET_COMMIT_REPOSITORIES_QUERY, { authorId, after });
+    const connection = response?.viewer?.repositories;
+    if (!connection) throw new Error('GitHub did not return repositories visible to the token.');
+    repositories.push(...(connection.nodes || []));
+    after = connection.pageInfo?.hasNextPage ? connection.pageInfo.endCursor : null;
+  } while (after);
+
+  return repositories;
+}
+
 function commitMatchesIdentity(author, login, aliases) {
   const candidates = [author?.user?.login, author?.name, author?.email]
     .filter(Boolean)
@@ -114,17 +131,17 @@ function commitMatchesIdentity(author, login, aliases) {
 }
 
 /**
- * Counts commits across every owned repository's default branch. Matching both
- * GitHub login and configured author aliases recovers older commits whose email
- * was never linked to the account.
+ * Counts commits across every accessible repository's default branch. Matching
+ * both GitHub login and configured author aliases recovers older commits whose
+ * email was never linked to the account.
  */
-export async function fetchOwnedRepositoryCommitStats(
+export async function fetchRepositoryCommitStats(
   graphqlClient,
   repositories,
   login,
   aliases = []
 ) {
-  const ownedLinkedCommits = (repositories || []).reduce(
+  const accessibleLinkedCommits = (repositories || []).reduce(
     (sum, repo) => sum + (repo.defaultBranchRef?.target?.history?.totalCount || 0),
     0
   );
@@ -151,10 +168,13 @@ export async function fetchOwnedRepositoryCommitStats(
   }));
 
   return {
-    ownedLinkedCommits,
-    ownedAuthoredCommits: repositoryCounts.reduce((sum, count) => sum + count, 0),
+    accessibleLinkedCommits,
+    accessibleAuthoredCommits: repositoryCounts.reduce((sum, count) => sum + count, 0),
   };
 }
+
+// Backward-compatible export for callers using the previous function name.
+export const fetchOwnedRepositoryCommitStats = fetchRepositoryCommitStats;
 
 /** Fetches and aggregates each contribution year to produce lifetime totals. */
 export async function fetchLifetimeContributions(graphqlClient, login, years, now = new Date()) {
@@ -193,11 +213,13 @@ export function calculateOverallStats(
   // private commits in this field. restrictedContributionsCount is deliberately
   // not added because it contains every restricted contribution type, not commits.
   const contributionCommits = totals.totalCommitContributions || 0;
-  const ownedLinkedCommits = repositoryCommitStats?.ownedLinkedCommits || 0;
-  const ownedAuthoredCommits = repositoryCommitStats?.ownedAuthoredCommits || 0;
-  const externalContributionCommits = Math.max(0, contributionCommits - ownedLinkedCommits);
+  const accessibleLinkedCommits = repositoryCommitStats?.accessibleLinkedCommits ??
+    repositoryCommitStats?.ownedLinkedCommits ?? 0;
+  const accessibleAuthoredCommits = repositoryCommitStats?.accessibleAuthoredCommits ??
+    repositoryCommitStats?.ownedAuthoredCommits ?? 0;
+  const unscannedContributionCommits = Math.max(0, contributionCommits - accessibleLinkedCommits);
   const totalCommits = repositoryCommitStats
-    ? ownedAuthoredCommits + externalContributionCommits
+    ? accessibleAuthoredCommits + unscannedContributionCommits
     : contributionCommits;
   const totalPRs = totals.totalPullRequestContributions || 0;
   const totalIssues = totals.totalIssueContributions || 0;
@@ -445,8 +467,9 @@ export async function fetchUserData(
     throw new Error('The authenticated GitHub viewer does not match the configured username.');
   }
 
-  const [repoNodes, lifetimeContributions] = await Promise.all([
+  const [repoNodes, commitRepoNodes, lifetimeContributions] = await Promise.all([
     fetchAllRepositories(graphqlWithAuth, targetUsername, rawUserData.id),
+    fetchCommitRepositories(graphqlWithAuth, rawUserData.id),
     fetchLifetimeContributions(
       graphqlWithAuth,
       targetUsername,
@@ -461,9 +484,9 @@ export async function fetchUserData(
     );
   }
 
-  const repositoryCommitStats = await fetchOwnedRepositoryCommitStats(
+  const repositoryCommitStats = await fetchRepositoryCommitStats(
     graphqlWithAuth,
-    repoNodes,
+    commitRepoNodes,
     targetUsername,
     commitAuthorAliases
   );

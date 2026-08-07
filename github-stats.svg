@@ -15,11 +15,11 @@
     </g>
     <g class="row" style="animation-delay:230ms">
       <text x="27" y="97" class="stat-label">Total Commits:</text>
-      <text x="247" y="97" class="stat-value">209</text>
+      <text x="247" y="97" class="stat-value">532</text>
     </g>
     <g class="row" style="animation-delay:310ms">
       <text x="27" y="124" class="stat-label">Total PRs:</text>
-      <text x="247" y="124" class="stat-value">7</text>
+      <text x="247" y="124" class="stat-value">0</text>
     </g>
     <g class="row" style="animation-delay:390ms">
       <text x="27" y="151" class="stat-label">Total Issues:</text>
@@ -27,11 +27,11 @@
     </g>
     <g class="row" style="animation-delay:470ms">
       <text x="27" y="178" class="stat-label">Contributed to (last year):</text>
-      <text x="247" y="178" class="stat-value">12</text>
+      <text x="247" y="178" class="stat-value">6</text>
     </g>
   <g transform="translate(391,121)">
     <circle r="44" fill="none" stroke="#313244" stroke-width="7"/>
     <circle cy="-44" r="4" fill="#94e2d5"/>
-    <text y="1" class="rank">B+</text>
+    <text y="1" class="rank">A</text>
   </g>
 </svg>

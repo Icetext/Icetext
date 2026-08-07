@@ -13,7 +13,7 @@
   <line x1="181.66666666666666" y1="30" x2="181.66666666666666" y2="187" stroke="#cdd6f4" stroke-width="1" opacity=".8"/>
   <line x1="363.3333333333333" y1="30" x2="363.3333333333333" y2="187" stroke="#cdd6f4" stroke-width="1" opacity=".8"/>
   <g class="column" style="animation-delay:120ms">
-    <text x="90.83333333333333" y="78" class="number">75</text>
+    <text x="90.83333333333333" y="78" class="number">60</text>
     <text x="90.83333333333333" y="118" class="label">Total Contributions</text>
     <text x="90.83333333333333" y="151" class="range">Aug 3, 2025 – Aug 7, 2026</text>
   </g>

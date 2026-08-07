@@ -87,6 +87,39 @@ export const GET_REPOSITORIES_QUERY = `
   }
 `;
 
+/** Fetches every non-fork repository the authenticated user can access. */
+export const GET_COMMIT_REPOSITORIES_QUERY = `
+  query getCommitRepositories($authorId: ID!, $after: String) {
+    viewer {
+      repositories(
+        first: 100
+        after: $after
+        affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]
+        isFork: false
+        orderBy: { field: UPDATED_AT, direction: DESC }
+      ) {
+        nodes {
+          id
+          nameWithOwner
+          defaultBranchRef {
+            target {
+              ... on Commit {
+                history(first: 1, author: { id: $authorId }) {
+                  totalCount
+                }
+              }
+            }
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+`;
+
 /** Fetches a repository's complete default-branch history for identity matching. */
 export const GET_REPOSITORY_COMMITS_QUERY = `
   query getRepositoryCommits($repositoryId: ID!, $after: String) {

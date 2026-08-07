@@ -3,8 +3,9 @@ import {
   aggregateLifetimeContributions,
   calculateOverallStats,
   fetchAllRepositories,
+  fetchCommitRepositories,
   fetchLifetimeContributions,
-  fetchOwnedRepositoryCommitStats,
+  fetchRepositoryCommitStats,
   fetchUserData,
   getContributionYearRange,
   validateTokenAccess,
@@ -109,6 +110,29 @@ await test('paginates through every repository page', async () => {
   assert.deepEqual(cursors, [null, 'next-page']);
 });
 
+await test('paginates through owned and shared repositories used for commit counts', async () => {
+  const cursors = [];
+  const client = async (_query, variables) => {
+    cursors.push(variables.after);
+    return {
+      viewer: {
+        repositories: {
+          nodes: [{ nameWithOwner: variables.after ? 'org/shared' : 'Icetext/owned' }],
+          pageInfo: variables.after
+            ? { hasNextPage: false, endCursor: null }
+            : { hasNextPage: true, endCursor: 'shared-page' },
+        },
+      },
+    };
+  };
+  const repositories = await fetchCommitRepositories(client, 'user-id');
+  assert.deepEqual(repositories.map((repo) => repo.nameWithOwner), [
+    'Icetext/owned',
+    'org/shared',
+  ]);
+  assert.deepEqual(cursors, [null, 'shared-page']);
+});
+
 await test('fetches and sums each lifetime contribution year', async () => {
   const years = [];
   const client = async (_query, variables) => {
@@ -132,7 +156,7 @@ await test('fetches and sums each lifetime contribution year', async () => {
   assert.equal(totals.totalCommitContributions, 60);
 });
 
-await test('detects linked and historical-alias commits in owned repositories', async () => {
+await test('detects linked and historical-alias commits in owned and shared repositories', async () => {
   const pages = [
     {
       nodes: [
@@ -154,13 +178,22 @@ await test('detects linked and historical-alias commits in owned repositories', 
   const client = async () => ({
     node: { defaultBranchRef: { target: { history: pages[call++] } } },
   });
-  const stats = await fetchOwnedRepositoryCommitStats(
+  const stats = await fetchRepositoryCommitStats(
     client,
     [{ id: 'repo-1', defaultBranchRef: { target: { history: { totalCount: 2 } } } }],
     'Icetext',
     ['Icetext']
   );
-  assert.deepEqual(stats, { ownedLinkedCommits: 2, ownedAuthoredCommits: 3 });
+  assert.deepEqual(stats, { accessibleLinkedCommits: 2, accessibleAuthoredCommits: 3 });
+});
+
+await test('combines accessible repository history without double counting contribution totals', () => {
+  const stats = calculateOverallStats(
+    { contributionsCollection: {}, repositories: { nodes: [] } },
+    { totalCommitContributions: 100 },
+    { accessibleLinkedCommits: 80, accessibleAuthoredCommits: 250 }
+  );
+  assert.equal(stats.totalCommits, 270);
 });
 
 await test('accepts a matching classic PAT with private scopes', async () => {
