@@ -11,20 +11,23 @@
   <text x="27" y="34" class="header">Most Used Languages</text>
   <defs><clipPath id="language-bar"><rect x="27" y="65" width="276" height="8" rx="4"/></clipPath></defs>
   <rect x="27" y="65" width="276" height="8" rx="4" fill="#313244"/>
-  <g clip-path="url(#language-bar)"><rect class="fade" style="animation-delay:150ms" x="27.00" y="65" width="95.55" height="8" fill="#89b4fa"/><rect class="fade" style="animation-delay:210ms" x="122.55" y="65" width="89.18" height="8" fill="#f9e2af"/><rect class="fade" style="animation-delay:270ms" x="211.73" y="65" width="46.70" height="8" fill="#cba6f7"/><rect class="fade" style="animation-delay:330ms" x="258.43" y="65" width="31.85" height="8" fill="#fab387"/><rect class="fade" style="animation-delay:390ms" x="290.28" y="65" width="12.75" height="8" fill="#94e2d5"/></g><g class="fade" style="animation-delay:250ms">
+  <g clip-path="url(#language-bar)"><rect class="fade" style="animation-delay:150ms" x="27.00" y="65" width="164.91" height="8" fill="#89b4fa"/><rect class="fade" style="animation-delay:210ms" x="191.91" y="65" width="51.36" height="8" fill="#f9e2af"/><rect class="fade" style="animation-delay:270ms" x="243.27" y="65" width="14.90" height="8" fill="#cba6f7"/><rect class="fade" style="animation-delay:330ms" x="258.18" y="65" width="14.77" height="8" fill="#fab387"/><rect class="fade" style="animation-delay:390ms" x="272.94" y="65" width="12.61" height="8" fill="#94e2d5"/><rect class="fade" style="animation-delay:450ms" x="285.56" y="65" width="6.76" height="8" fill="#a6e3a1"/></g><g class="fade" style="animation-delay:250ms">
       <circle cx="32" cy="101" r="5" fill="#89b4fa"/>
-      <text x="43" y="101" class="language">TypeScript 34.62%</text>
+      <text x="43" y="101" class="language">TypeScript 59.75%</text>
     </g><g class="fade" style="animation-delay:320ms">
       <circle cx="176" cy="101" r="5" fill="#f9e2af"/>
-      <text x="187" y="101" class="language">JavaScript 32.31%</text>
+      <text x="187" y="101" class="language">JavaScript 18.61%</text>
     </g><g class="fade" style="animation-delay:390ms">
       <circle cx="32" cy="125" r="5" fill="#cba6f7"/>
-      <text x="43" y="125" class="language">Python 16.92%</text>
+      <text x="43" y="125" class="language">C# 5.40%</text>
     </g><g class="fade" style="animation-delay:460ms">
       <circle cx="176" cy="125" r="5" fill="#fab387"/>
-      <text x="187" y="125" class="language">Rust 11.54%</text>
+      <text x="187" y="125" class="language">SCSS 5.35%</text>
     </g><g class="fade" style="animation-delay:530ms">
       <circle cx="32" cy="149" r="5" fill="#94e2d5"/>
-      <text x="43" y="149" class="language">Go 4.62%</text>
+      <text x="43" y="149" class="language">Less 4.57%</text>
+    </g><g class="fade" style="animation-delay:600ms">
+      <circle cx="176" cy="149" r="5" fill="#a6e3a1"/>
+      <text x="187" y="149" class="language">Python 2.45%</text>
     </g>
 </svg>
