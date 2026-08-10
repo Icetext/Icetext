@@ -15,11 +15,11 @@
     </g>
     <g class="row" style="animation-delay:230ms">
       <text x="27" y="97" class="stat-label">Total Commits:</text>
-      <text x="247" y="97" class="stat-value">541</text>
+      <text x="247" y="97" class="stat-value">549</text>
     </g>
     <g class="row" style="animation-delay:310ms">
       <text x="27" y="124" class="stat-label">Total PRs:</text>
-      <text x="247" y="124" class="stat-value">7</text>
+      <text x="247" y="124" class="stat-value">8</text>
     </g>
     <g class="row" style="animation-delay:390ms">
       <text x="27" y="151" class="stat-label">Total Issues:</text>
