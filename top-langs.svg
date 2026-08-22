@@ -11,23 +11,23 @@
   <text x="27" y="34" class="header">Most Used Languages</text>
   <defs><clipPath id="language-bar"><rect x="27" y="65" width="276" height="8" rx="4"/></clipPath></defs>
   <rect x="27" y="65" width="276" height="8" rx="4" fill="#313244"/>
-  <g clip-path="url(#language-bar)"><rect class="fade" style="animation-delay:150ms" x="27.00" y="65" width="167.42" height="8" fill="#89b4fa"/><rect class="fade" style="animation-delay:210ms" x="194.42" y="65" width="51.28" height="8" fill="#f9e2af"/><rect class="fade" style="animation-delay:270ms" x="245.70" y="65" width="14.30" height="8" fill="#cba6f7"/><rect class="fade" style="animation-delay:330ms" x="260.00" y="65" width="14.16" height="8" fill="#fab387"/><rect class="fade" style="animation-delay:390ms" x="274.16" y="65" width="12.09" height="8" fill="#94e2d5"/><rect class="fade" style="animation-delay:450ms" x="286.25" y="65" width="6.49" height="8" fill="#a6e3a1"/></g><g class="fade" style="animation-delay:250ms">
+  <g clip-path="url(#language-bar)"><rect class="fade" style="animation-delay:150ms" x="27.00" y="65" width="171.15" height="8" fill="#89b4fa"/><rect class="fade" style="animation-delay:210ms" x="198.15" y="65" width="49.13" height="8" fill="#f9e2af"/><rect class="fade" style="animation-delay:270ms" x="247.28" y="65" width="13.69" height="8" fill="#cba6f7"/><rect class="fade" style="animation-delay:330ms" x="260.97" y="65" width="13.58" height="8" fill="#fab387"/><rect class="fade" style="animation-delay:390ms" x="274.54" y="65" width="11.56" height="8" fill="#94e2d5"/><rect class="fade" style="animation-delay:450ms" x="286.11" y="65" width="6.84" height="8" fill="#a6e3a1"/></g><g class="fade" style="animation-delay:250ms">
       <circle cx="32" cy="101" r="5" fill="#89b4fa"/>
-      <text x="43" y="101" class="language">TypeScript 60.66%</text>
+      <text x="43" y="101" class="language">TypeScript 62.01%</text>
     </g><g class="fade" style="animation-delay:320ms">
       <circle cx="176" cy="101" r="5" fill="#f9e2af"/>
-      <text x="187" y="101" class="language">JavaScript 18.58%</text>
+      <text x="187" y="101" class="language">JavaScript 17.80%</text>
     </g><g class="fade" style="animation-delay:390ms">
       <circle cx="32" cy="125" r="5" fill="#cba6f7"/>
-      <text x="43" y="125" class="language">C# 5.18%</text>
+      <text x="43" y="125" class="language">C# 4.96%</text>
     </g><g class="fade" style="animation-delay:460ms">
       <circle cx="176" cy="125" r="5" fill="#fab387"/>
-      <text x="187" y="125" class="language">SCSS 5.13%</text>
+      <text x="187" y="125" class="language">SCSS 4.92%</text>
     </g><g class="fade" style="animation-delay:530ms">
       <circle cx="32" cy="149" r="5" fill="#94e2d5"/>
-      <text x="43" y="149" class="language">Less 4.38%</text>
+      <text x="43" y="149" class="language">Less 4.19%</text>
     </g><g class="fade" style="animation-delay:600ms">
       <circle cx="176" cy="149" r="5" fill="#a6e3a1"/>
-      <text x="187" y="149" class="language">Python 2.35%</text>
+      <text x="187" y="149" class="language">Python 2.48%</text>
     </g>
 </svg>

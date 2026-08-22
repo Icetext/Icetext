@@ -13,16 +13,16 @@
   <line x1="181.66666666666666" y1="30" x2="181.66666666666666" y2="187" stroke="#cdd6f4" stroke-width="1" opacity=".8"/>
   <line x1="363.3333333333333" y1="30" x2="363.3333333333333" y2="187" stroke="#cdd6f4" stroke-width="1" opacity=".8"/>
   <g class="column" style="animation-delay:120ms">
-    <text x="90.83333333333333" y="78" class="number">80</text>
+    <text x="90.83333333333333" y="78" class="number">81</text>
     <text x="90.83333333333333" y="118" class="label">Total Contributions</text>
-    <text x="90.83333333333333" y="151" class="range">Aug 17, 2025 – Aug 21, 2026</text>
+    <text x="90.83333333333333" y="151" class="range">Aug 17, 2025 – Aug 22, 2026</text>
   </g>
   <g class="column" style="animation-delay:240ms">
     <circle cx="272.5" cy="75" r="43" fill="none" stroke="#94e2d5" stroke-width="5"/>
     <path d="M 272.5 23 C 264.5 32,262.5 40,272.5 44 C 281.5 40,280.5 31,274.5 26 C 275.5 32,271.5 35,269.5 32 C 268.5 29,270.5 26,272.5 23 Z" fill="#94e2d5" stroke="#1e1e2e" stroke-width="4"/>
-    <text x="272.5" y="76" class="number current-number">0</text>
+    <text x="272.5" y="76" class="number current-number">1</text>
     <text x="272.5" y="145" class="label current-label">Current Streak</text>
-    <text x="272.5" y="174" class="range">Aug 21, 2026</text>
+    <text x="272.5" y="174" class="range">Aug 21, 2026 – Aug 21, 2026</text>
   </g>
   <g class="column" style="animation-delay:360ms">
     <text x="454.16666666666663" y="78" class="number">3</text>
